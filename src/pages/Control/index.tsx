@@ -361,13 +361,15 @@ export default function Control({ navigation }: StackHeaderProps) {
                                        },
                                     )}`,
                                  }}
-                                 rightElement="settings"
-                                 onPress={() => handleRemoveItem(index)}
-                                 onRightElementPress={() =>
+                                 rightElement="exposure-neg-1"
+                                 onPress={() =>
                                     navigation.navigate('Settings', {
                                        item: index,
                                        handleUpdateItems,
                                     })
+                                 }
+                                 onRightElementPress={() =>
+                                    handleRemoveItem(index)
                                  }
                                  divider
                               />

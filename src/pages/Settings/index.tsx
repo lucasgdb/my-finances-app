@@ -41,6 +41,10 @@ export default function Settings({ route, navigation }) {
                setMissingInstallments(String(list.missingInstallments));
             }
          } catch (err) {
+            try {
+               AsyncStorage.clear();
+            } catch {}
+
             Alert.alert('Error', err);
          } finally {
             setLoading(false);
