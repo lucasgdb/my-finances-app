@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
    SafeAreaView,
-   StyleSheet,
    ScrollView,
    StatusBar,
    View,
@@ -10,13 +9,15 @@ import {
    Alert,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import { Toolbar, ListItem, Button } from 'react-native-material-ui';
 import { TextInputMask, MaskService } from 'react-native-masked-text';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
+import styles from './styles';
 import { Item } from './Interfaces';
 
-function App() {
+export default function App() {
+   const [loading, setLoading] = useState(true);
    const [money, setMoney] = useState('500.00');
    const [txtMoney, setTxtMoney] = useState('000');
    const [adding, setAdding] = useState(false);
@@ -39,26 +40,50 @@ function App() {
          months: 10,
          missingMonths: 10,
       },
-      {
-         title: 'Empréstimo',
-         description: 'Dinheiro emprestado para a Steffany',
-         value: '800.00',
-         months: 10,
-         missingMonths: 10,
-      },
+      // {
+      //    title: 'Empréstimo',
+      //    description: 'Dinheiro emprestado para a Steffany',
+      //    value: '800.00',
+      //    months: 9,
+      //    missingMonths: 9,
+      // },
    ] as Item[]);
 
-   function handleAddMoney() {
+   useEffect(() => {
+      (async function () {
+         try {
+            const currentMoney = await AsyncStorage.getItem('money');
+            const currentList = await AsyncStorage.getItem('list');
+
+            if (currentMoney !== null) setMoney(currentMoney);
+            if (currentList !== null) setList(JSON.parse(currentList));
+         } catch (err) {
+            Alert.alert('Error', 'Something wrong happened :(');
+         } finally {
+            setLoading(false);
+         }
+      })();
+   }, []);
+
+   async function handleAddMoney() {
       const currentMoney = Number(money.replace(/\D/g, ''));
       const newAddMoney = Number(txtMoney.replace(/\D/g, ''));
 
       const finalValue = currentMoney + newAddMoney;
 
+      await AsyncStorage.setItem('money', finalValue.toString());
+
       setMoney(finalValue.toString());
       setTxtMoney('000');
    }
 
-   function handleAddItem() {
+   async function handleChangeMoney(money: string) {
+      await AsyncStorage.setItem('money', money.replace(/\D/g, ''));
+
+      setMoney(money);
+   }
+
+   async function handleAddItem() {
       if (
          title !== '' &&
          description !== '' &&
@@ -69,7 +94,7 @@ function App() {
          const newMinusMoney = Number(newMoney.replace(/\D/g, ''));
 
          if (newMinusMoney <= currentMoney) {
-            setList([
+            const newList = [
                ...list,
                {
                   title,
@@ -78,9 +103,17 @@ function App() {
                   months: Number(months),
                   missingMonths: Number(months),
                },
-            ]);
+            ];
 
-            setMoney(String(currentMoney - newMinusMoney));
+            await AsyncStorage.setItem('list', JSON.stringify(newList));
+
+            setList(newList);
+
+            const finalValue = String(currentMoney - newMinusMoney);
+
+            await AsyncStorage.setItem('money', finalValue);
+
+            setMoney(finalValue);
             setTitle('');
             setDescription('');
             setNewMoney('000');
@@ -95,20 +128,26 @@ function App() {
       }
    }
 
-   function handleRemoveItem(index: number) {
+   async function handleRemoveItem(index: number) {
       const newList = [...list];
       const currentMoney = Number(money.replace(/\D/g, ''));
       const newMinusMoney =
          Number(newList[index].value.replace(/\D/g, '')) /
          newList[index].months;
 
-      setMoney(String(currentMoney + newMinusMoney));
+      const finalValue = String(currentMoney + newMinusMoney);
+
+      await AsyncStorage.setItem('money', finalValue);
+
+      setMoney(finalValue);
 
       if (newList[index].missingMonths > 1) {
          newList[index].missingMonths--;
       } else {
          newList.splice(index, 1);
       }
+
+      await AsyncStorage.setItem('list', JSON.stringify(newList));
 
       setList(newList);
    }
@@ -122,223 +161,202 @@ function App() {
                style={styles.scrollView}>
                <Toolbar leftElement="menu" centerElement="My Finances" />
 
-               <View style={styles.container}>
-                  <View style={styles.typeContainer}>
-                     <Text style={styles.currentMoney}>
-                        Your current money: R$
-                     </Text>
-
-                     <TextInputMask
-                        type="money"
-                        options={{
-                           precision: 2,
-                           separator: ',',
-                           delimiter: '.',
-                           unit: '',
-                        }}
-                        value={money}
-                        onChangeText={(text) => setMoney(text)}
-                        style={{ ...styles.currentMoney, ...styles.inputMask }}
-                     />
+               {loading ? (
+                  <View style={styles.container}>
+                     <Text>Loading your app...</Text>
                   </View>
+               ) : (
+                  <View style={styles.container}>
+                     <View style={styles.typeContainer}>
+                        <Text style={styles.currentMoney}>
+                           Your current money: R$
+                        </Text>
 
-                  <View style={styles.typeContainer}>
-                     <Text>Amount: R$ </Text>
-
-                     <TextInputMask
-                        type="money"
-                        options={{
-                           precision: 2,
-                           separator: ',',
-                           delimiter: '.',
-                           unit: '',
-                        }}
-                        value={txtMoney}
-                        onChangeText={(text) => setTxtMoney(text)}
-                        style={styles.inputMask}
-                     />
-
-                     <Button
-                        raised
-                        primary
-                        text="Add money"
-                        onPress={handleAddMoney}
-                     />
-                  </View>
-
-                  {adding ? (
-                     <View>
-                        <View
+                        <TextInputMask
+                           type="money"
+                           options={{
+                              precision: 2,
+                              separator: ',',
+                              delimiter: '.',
+                              unit: '',
+                           }}
+                           value={money}
+                           onChangeText={(text) => handleChangeMoney(text)}
                            style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Title: </Text>
-
-                           <TextInput
-                              placeholder="Type the title here..."
-                              value={title}
-                              onChangeText={(text) => setTitle(text)}
-                              style={styles.inputMask}
-                           />
-                        </View>
-
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Description: </Text>
-
-                           <TextInput
-                              placeholder="Type the title here..."
-                              value={description}
-                              onChangeText={(text) => setDescription(text)}
-                              style={styles.inputMask}
-                           />
-                        </View>
-
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Value: R$ </Text>
-
-                           <TextInputMask
-                              type="money"
-                              options={{
-                                 precision: 2,
-                                 separator: ',',
-                                 delimiter: '.',
-                                 unit: '',
-                              }}
-                              value={newMoney}
-                              onChangeText={(text) => setNewMoney(text)}
-                              style={styles.inputMask}
-                           />
-                        </View>
-
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Months: </Text>
-
-                           <TextInput
-                              placeholder="Months to be paid..."
-                              value={months}
-                              onChangeText={(text) => setMonths(text)}
-                              style={styles.inputMask}
-                              keyboardType="numeric"
-                           />
-                        </View>
-
-                        <Button
-                           primary
-                           raised
-                           text="Add"
-                           onPress={handleAddItem}
-                           style={{ container: { marginTop: 5 } }}
+                              ...styles.currentMoney,
+                              ...styles.inputMask,
+                           }}
                         />
                      </View>
-                  ) : (
-                     <Button
-                        primary
-                        text="Add new item"
-                        raised
-                        onPress={() => setAdding(true)}
-                     />
-                  )}
 
-                  <View style={styles.listItem}>
-                     {list.length ? (
-                        list.map((item: Item, index: number) => (
-                           <ListItem
-                              key={index}
-                              centerElement={{
-                                 primaryText: item.title,
-                                 secondaryText: item.description,
-                                 tertiaryText: `${MaskService.toMask(
-                                    'money',
-                                    String(
-                                       Number(
-                                          Number(item.value) / item.months,
-                                       ).toFixed(2),
-                                    ),
-                                    {
-                                       precision: 2,
-                                       separator: ',',
-                                       delimiter: '.',
-                                       unit: 'R$ ',
-                                    },
-                                 )} * ${
-                                    item.missingMonths
-                                 } = ${MaskService.toMask(
-                                    'money',
-                                    String(
-                                       (Number(item.value.replace(/\D/g, '')) /
-                                          item.months) *
-                                          item.missingMonths,
-                                    ),
-                                    {
-                                       precision: 2,
-                                       separator: ',',
-                                       delimiter: '.',
-                                       unit: 'R$ ',
-                                    },
-                                 )}`,
-                              }}
-                              rightElement="exposure-neg-1"
-                              onPress={() => handleRemoveItem(index)}
-                              onRightElementPress={() =>
-                                 handleRemoveItem(index)
-                              }
-                              divider
+                     <View style={styles.typeContainer}>
+                        <Text>Amount: R$ </Text>
+
+                        <TextInputMask
+                           type="money"
+                           options={{
+                              precision: 2,
+                              separator: ',',
+                              delimiter: '.',
+                              unit: '',
+                           }}
+                           value={txtMoney}
+                           onChangeText={(text) => setTxtMoney(text)}
+                           style={styles.inputMask}
+                        />
+
+                        <Button
+                           raised
+                           primary
+                           text="Add money"
+                           onPress={handleAddMoney}
+                        />
+                     </View>
+
+                     {adding ? (
+                        <View>
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Title: </Text>
+
+                              <TextInput
+                                 placeholder="Type the title here..."
+                                 value={title}
+                                 onChangeText={(text) => setTitle(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Description: </Text>
+
+                              <TextInput
+                                 placeholder="Type the title here..."
+                                 value={description}
+                                 onChangeText={(text) => setDescription(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Value: R$ </Text>
+
+                              <TextInputMask
+                                 type="money"
+                                 options={{
+                                    precision: 2,
+                                    separator: ',',
+                                    delimiter: '.',
+                                    unit: '',
+                                 }}
+                                 value={newMoney}
+                                 onChangeText={(text) => setNewMoney(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Months: </Text>
+
+                              <TextInput
+                                 placeholder="Months to be paid..."
+                                 value={months}
+                                 onChangeText={(text) => setMonths(text)}
+                                 style={styles.inputMask}
+                                 keyboardType="numeric"
+                              />
+                           </View>
+
+                           <Button
+                              primary
+                              raised
+                              text="Add"
+                              onPress={handleAddItem}
+                              style={{ container: { marginTop: 5 } }}
                            />
-                        ))
+                        </View>
                      ) : (
-                        <Text>It's okay. :)</Text>
+                        <Button
+                           primary
+                           text="Add new item"
+                           raised
+                           onPress={() => setAdding(true)}
+                        />
                      )}
+
+                     <View style={styles.listItem}>
+                        {list.length ? (
+                           list.map((item: Item, index: number) => (
+                              <ListItem
+                                 key={index}
+                                 centerElement={{
+                                    primaryText: item.title,
+                                    secondaryText: item.description,
+                                    tertiaryText: `${MaskService.toMask(
+                                       'money',
+                                       String(
+                                          Number(
+                                             item.value.replace(/\D/g, ''),
+                                          ) / item.months,
+                                       ),
+                                       {
+                                          precision: 2,
+                                          separator: ',',
+                                          delimiter: '.',
+                                          unit: 'R$ ',
+                                       },
+                                    )} * ${
+                                       item.missingMonths
+                                    } = ${MaskService.toMask(
+                                       'money',
+                                       String(
+                                          (Number(
+                                             item.value.replace(/\D/g, ''),
+                                          ) /
+                                             item.months) *
+                                             item.missingMonths,
+                                       ),
+                                       {
+                                          precision: 2,
+                                          separator: ',',
+                                          delimiter: '.',
+                                          unit: 'R$ ',
+                                       },
+                                    )}`,
+                                 }}
+                                 rightElement="exposure-neg-1"
+                                 onPress={() => handleRemoveItem(index)}
+                                 onRightElementPress={() =>
+                                    handleRemoveItem(index)
+                                 }
+                                 divider
+                              />
+                           ))
+                        ) : (
+                           <Text>It's okay. :)</Text>
+                        )}
+                     </View>
                   </View>
-               </View>
+               )}
             </ScrollView>
          </SafeAreaView>
       </>
    );
 }
 
-const styles = StyleSheet.create({
-   root: {
-      flex: 1,
-   },
-   scrollView: {
-      backgroundColor: Colors.lighter,
-   },
-   container: {
-      paddingLeft: 20,
-      paddingRight: 20,
-      flex: 1,
-      marginTop: 10,
-   },
-   currentMoney: {
-      fontSize: 19,
-   },
-   typeContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-   },
-   inputMask: {
-      flexGrow: 1,
-   },
-   listItem: {
-      marginTop: 15,
-   },
-   negativeMargin: {
-      marginTop: -5,
-      marginBottom: -5,
-   },
-});
-
-export default App;
+console.disableYellowBox = true;
