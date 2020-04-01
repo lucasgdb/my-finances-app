@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
    SafeAreaView,
    ScrollView,
@@ -19,7 +19,7 @@ import { Item } from './Interfaces';
 
 export default function Control({ navigation }: StackHeaderProps) {
    const [loading, setLoading] = useState(true);
-   const [money, setMoney] = useState('500.00');
+   const [money, setMoney] = useState('950.00');
    const [txtMoney, setTxtMoney] = useState('000');
    const [adding, setAdding] = useState(false);
    const [newMoney, setNewMoney] = useState('000');
@@ -64,11 +64,11 @@ export default function Control({ navigation }: StackHeaderProps) {
          const currentMoney = Number(money.replace(/\D/g, ''));
          const newAddMoney = Number(txtMoney.replace(/\D/g, ''));
 
-         const finalValue = currentMoney + newAddMoney;
+         const finalValue = String(currentMoney + newAddMoney);
 
-         await AsyncStorage.setItem('money', finalValue.toString());
+         await AsyncStorage.setItem('money', finalValue);
 
-         setMoney(finalValue.toString());
+         setMoney(finalValue);
          setTxtMoney('000');
       } catch (err) {
          Alert.alert('Error', err);
@@ -162,7 +162,7 @@ export default function Control({ navigation }: StackHeaderProps) {
       }
    }
 
-   async function handleUpdateItems() {
+   const handleUpdateItems = useCallback(async () => {
       try {
          const updatedList = await AsyncStorage.getItem('list');
 
@@ -172,7 +172,7 @@ export default function Control({ navigation }: StackHeaderProps) {
       } catch (err) {
          Alert.alert('Error', err);
       }
-   }
+   }, []);
 
    return (
       <>

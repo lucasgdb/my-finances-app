@@ -15,7 +15,8 @@ import { Item } from '../Control/Interfaces';
 import { Button } from 'react-native-material-ui';
 import { TextInputMask } from 'react-native-masked-text';
 
-export default function Settings({ route }) {
+// @ts-ignore
+export default function Settings({ route, navigation }) {
    const { item, handleUpdateItems } = route.params;
 
    const [loading, setLoading] = useState(true);
@@ -67,6 +68,8 @@ export default function Settings({ route }) {
             await AsyncStorage.setItem('list', JSON.stringify(currentList));
 
             handleUpdateItems();
+
+            navigation.navigate('Control');
          }
       } catch (err) {
          Alert.alert('Error', err);

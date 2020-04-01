@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { YellowBox } from 'react-native';
 
 import Control from './pages/Control';
 import Settings from './pages/Settings';
@@ -20,14 +21,14 @@ export default function App() {
                }}
             />
 
-            <Screen
-               name="Settings"
-               component={Settings}
-               options={{ gestureDirection: 'vertical-inverted' }}
-            />
+            <Screen name="Settings" component={Settings} />
          </Navigator>
       </NavigationContainer>
    );
 }
+
+YellowBox.ignoreWarnings([
+   'Non-serializable values were found in the navigation state',
+]);
 
 console.disableYellowBox = true;
