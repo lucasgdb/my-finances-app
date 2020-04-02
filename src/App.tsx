@@ -21,7 +21,14 @@ export default function App() {
                }}
             />
 
-            <Screen name="Settings" component={Settings} />
+            <Screen
+               name="Settings"
+               component={Settings}
+               options={{
+                  headerStyle: { backgroundColor: '#8e24aa' },
+                  headerTintColor: '#fff',
+               }}
+            />
          </Navigator>
       </NavigationContainer>
    );
@@ -29,6 +36,7 @@ export default function App() {
 
 YellowBox.ignoreWarnings([
    'Non-serializable values were found in the navigation state',
+   'componentWillReceiveProps',
 ]);
 
 console.disableYellowBox = true;

@@ -1,7 +1,8 @@
 export interface Item {
    title: string;
    description: string;
-   value: string;
+   money: string;
+   tax: string;
    installments: number;
    missingInstallments: number;
 }

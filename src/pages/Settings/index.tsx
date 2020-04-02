@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import styles from './styles';
 import { Item } from '../Control/Interfaces';
-import { Button } from 'react-native-material-ui';
+import { Button, Card, Divider } from 'react-native-material-ui';
 import { TextInputMask } from 'react-native-masked-text';
 
 // @ts-ignore
@@ -24,6 +24,7 @@ export default function Settings({ route, navigation }) {
    const [description, setDescription] = useState('');
    const [installments, setInstallments] = useState('1');
    const [money, setMoney] = useState('000');
+   const [tax, setTax] = useState('000');
    const [missingInstallments, setMissingInstallments] = useState('1');
 
    useEffect(() => {
@@ -36,7 +37,8 @@ export default function Settings({ route, navigation }) {
 
                setTitle(list.title);
                setDescription(list.description);
-               setMoney(list.value);
+               setMoney(list.money);
+               setTax(list.tax);
                setInstallments(String(list.installments));
                setMissingInstallments(String(list.missingInstallments));
             }
@@ -50,14 +52,15 @@ export default function Settings({ route, navigation }) {
             setLoading(false);
          }
       })();
-   }, []);
+   }, [item]);
 
    async function handleSaveItem() {
       try {
          const newList: Item = {
             title,
             description,
-            value: money,
+            money,
+            tax,
             installments: Number(installments.replace(/\D/g, '')),
             missingInstallments: Number(missingInstallments.replace(/\D/g, '')),
          };
@@ -82,111 +85,154 @@ export default function Settings({ route, navigation }) {
 
    return (
       <>
-         <StatusBar backgroundColor="#2196f3" barStyle="light-content" />
+         <StatusBar backgroundColor="#8e24aa" barStyle="light-content" />
          <SafeAreaView style={styles.root}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
                style={styles.scrollView}>
-               <View style={styles.container}>
-                  {loading ? (
-                     <Text>Loading...</Text>
-                  ) : (
-                     <>
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Title: </Text>
+               {loading ? (
+                  <Text>Loading...</Text>
+               ) : (
+                  <>
+                     <Card
+                        style={{
+                           container: { paddingTop: 10, paddingBottom: 10 },
+                        }}>
+                        <View style={styles.container}>
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Title: </Text>
 
-                           <TextInput
-                              placeholder="Type the title here..."
-                              value={title}
-                              onChangeText={(text) => setTitle(text)}
-                              style={styles.inputMask}
-                           />
+                              <TextInput
+                                 placeholder="Type the title here..."
+                                 value={title}
+                                 onChangeText={(text) => setTitle(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <Divider />
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Description: </Text>
+
+                              <TextInput
+                                 placeholder="Type the title here..."
+                                 value={description}
+                                 onChangeText={(text) => setDescription(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <Divider />
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Value: R$ </Text>
+
+                              <TextInputMask
+                                 type="money"
+                                 options={{
+                                    precision: 2,
+                                    separator: ',',
+                                    delimiter: '.',
+                                    unit: '',
+                                 }}
+                                 value={money}
+                                 onChangeText={(text) => setMoney(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <Divider />
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Tax: R$ </Text>
+
+                              <TextInputMask
+                                 type="money"
+                                 options={{
+                                    precision: 2,
+                                    separator: ',',
+                                    delimiter: '.',
+                                    unit: '',
+                                 }}
+                                 value={tax}
+                                 onChangeText={(text) => setTax(text)}
+                                 style={styles.inputMask}
+                              />
+                           </View>
+
+                           <Divider />
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Installments: </Text>
+
+                              <TextInput
+                                 placeholder="Installments to be paid..."
+                                 value={installments}
+                                 onChangeText={(text) => setInstallments(text)}
+                                 style={styles.inputMask}
+                                 keyboardType="numeric"
+                              />
+                           </View>
+
+                           <Divider />
+
+                           <View
+                              style={{
+                                 ...styles.typeContainer,
+                                 ...styles.negativeMargin,
+                              }}>
+                              <Text>Missing installments: </Text>
+
+                              <TextInput
+                                 placeholder="Missing installments..."
+                                 value={missingInstallments}
+                                 onChangeText={(text) =>
+                                    setMissingInstallments(text)
+                                 }
+                                 style={styles.inputMask}
+                                 keyboardType="numeric"
+                              />
+                           </View>
                         </View>
+                     </Card>
 
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Description: </Text>
-
-                           <TextInput
-                              placeholder="Type the title here..."
-                              value={description}
-                              onChangeText={(text) => setDescription(text)}
-                              style={styles.inputMask}
-                           />
-                        </View>
-
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Value: R$ </Text>
-
-                           <TextInputMask
-                              type="money"
-                              options={{
-                                 precision: 2,
-                                 separator: ',',
-                                 delimiter: '.',
-                                 unit: '',
-                              }}
-                              value={money}
-                              onChangeText={(text) => setMoney(text)}
-                              style={styles.inputMask}
-                           />
-                        </View>
-
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Installments: </Text>
-
-                           <TextInput
-                              placeholder="Installments to be paid..."
-                              value={installments}
-                              onChangeText={(text) => setInstallments(text)}
-                              style={styles.inputMask}
-                              keyboardType="numeric"
-                           />
-                        </View>
-
-                        <View
-                           style={{
-                              ...styles.typeContainer,
-                              ...styles.negativeMargin,
-                           }}>
-                           <Text>Missing installments: </Text>
-
-                           <TextInput
-                              placeholder="Missing installments..."
-                              value={missingInstallments}
-                              onChangeText={(text) =>
-                                 setMissingInstallments(text)
-                              }
-                              style={styles.inputMask}
-                              keyboardType="numeric"
-                           />
-                        </View>
-
-                        <Button
-                           primary
-                           raised
-                           text="Save"
-                           onPress={handleSaveItem}
-                           style={{ container: { marginTop: 5 } }}
-                        />
-                     </>
-                  )}
-               </View>
+                     <Button
+                        primary
+                        raised
+                        text="Save"
+                        onPress={handleSaveItem}
+                        style={{
+                           container: {
+                              marginTop: 5,
+                              backgroundColor: '#8e24aa',
+                              marginLeft: 15,
+                              marginRight: 15,
+                           },
+                        }}
+                     />
+                  </>
+               )}
             </ScrollView>
          </SafeAreaView>
       </>

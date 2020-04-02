@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
       paddingLeft: 20,
       paddingRight: 20,
       flex: 1,
-      marginTop: 10,
    },
    currentMoney: {
       fontSize: 19,
@@ -20,11 +19,13 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
    },
+   buttonContainer: {},
    inputMask: {
       flexGrow: 1,
    },
    listItem: {
-      marginTop: 15,
+      marginTop: 5,
+      marginBottom: 5,
    },
    negativeMargin: {
       marginTop: -5,
