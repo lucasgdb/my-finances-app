@@ -9,6 +9,7 @@ import {
    TextInput,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { StackHeaderProps } from '@react-navigation/stack';
 
 import styles from './styles';
 import { Item } from '../Control/Interfaces';
@@ -16,7 +17,7 @@ import { Button, Card, Divider } from 'react-native-material-ui';
 import { TextInputMask } from 'react-native-masked-text';
 
 // @ts-ignore
-export default function Settings({ route, navigation }) {
+export default function Settings({ route, navigation }: StackHeaderProps) {
    const { item, handleUpdateItems } = route.params;
 
    const [loading, setLoading] = useState(true);
@@ -83,9 +84,48 @@ export default function Settings({ route, navigation }) {
       }
    }
 
+   async function handleRemoveItem() {
+      try {
+         const list = await AsyncStorage.getItem('list');
+
+         if (list !== null) {
+            const currentList = JSON.parse(list);
+
+            const trashList = await AsyncStorage.getItem('trash');
+            const trash = currentList.splice(item, 1);
+            const currentTrashList = [] as Item[];
+
+            if (trashList !== null) {
+               currentTrashList.push(...JSON.parse(trashList));
+            }
+
+            currentTrashList.push(...trash);
+
+            await AsyncStorage.setItem(
+               'trash',
+               JSON.stringify(currentTrashList),
+            );
+            await AsyncStorage.setItem('list', JSON.stringify(currentList));
+
+            handleUpdateItems();
+
+            navigation.navigate('Control');
+         }
+      } catch (err) {
+         Alert.alert('Error', err);
+      }
+   }
+
+   function handleAskRemoveItem() {
+      Alert.alert('Remove', 'Do you want to remove this item?', [
+         { text: 'No' },
+         { text: 'Yes', onPress: handleRemoveItem },
+      ]);
+   }
+
    return (
       <>
-         <StatusBar backgroundColor="#8e24aa" barStyle="light-content" />
+         <StatusBar backgroundColor="#00ff5f" barStyle="dark-content" />
          <SafeAreaView style={styles.root}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
@@ -218,6 +258,20 @@ export default function Settings({ route, navigation }) {
                      </Card>
 
                      <Button
+                        accent
+                        raised
+                        text="Remove"
+                        onPress={handleAskRemoveItem}
+                        style={{
+                           container: {
+                              marginTop: 5,
+                              marginLeft: 15,
+                              marginRight: 15,
+                           },
+                        }}
+                     />
+
+                     <Button
                         primary
                         raised
                         text="Save"
@@ -225,10 +279,11 @@ export default function Settings({ route, navigation }) {
                         style={{
                            container: {
                               marginTop: 5,
-                              backgroundColor: '#8e24aa',
+                              backgroundColor: '#00ff5f',
                               marginLeft: 15,
                               marginRight: 15,
                            },
+                           text: { color: '#333' },
                         }}
                      />
                   </>

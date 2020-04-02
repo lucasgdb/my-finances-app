@@ -6,6 +6,7 @@ import { YellowBox } from 'react-native';
 
 import Control from './pages/Control';
 import Settings from './pages/Settings';
+import Trash from './pages/Trash';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -25,8 +26,17 @@ export default function App() {
                name="Settings"
                component={Settings}
                options={{
-                  headerStyle: { backgroundColor: '#8e24aa' },
-                  headerTintColor: '#fff',
+                  headerStyle: { backgroundColor: '#00ff5f' },
+                  headerTintColor: '#333',
+               }}
+            />
+
+            <Screen
+               name="Trash"
+               component={Trash}
+               options={{
+                  headerStyle: { backgroundColor: '#00ff5f' },
+                  headerTintColor: '#333',
                }}
             />
          </Navigator>
@@ -36,7 +46,7 @@ export default function App() {
 
 YellowBox.ignoreWarnings([
    'Non-serializable values were found in the navigation state',
-   'componentWillReceiveProps',
+   'component',
 ]);
 
 console.disableYellowBox = true;

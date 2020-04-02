@@ -9,7 +9,7 @@ import {
    Alert,
 } from 'react-native';
 import { StackHeaderProps } from '@react-navigation/stack';
-
+import { ActionButton } from 'react-native-material-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
    Toolbar,
@@ -180,7 +180,7 @@ export default function Control({ navigation }: StackHeaderProps) {
 
    return (
       <>
-         <StatusBar backgroundColor="#8e24aa" barStyle="light-content" />
+         <StatusBar backgroundColor="#00ff5f" barStyle="dark-content" />
          <SafeAreaView style={styles.root}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
@@ -188,7 +188,11 @@ export default function Control({ navigation }: StackHeaderProps) {
                <Toolbar
                   leftElement="menu"
                   centerElement="My Finances"
-                  style={{ container: { backgroundColor: '#8e24aa' } }}
+                  style={{
+                     container: { backgroundColor: '#00ff5f' },
+                     titleText: { color: '#333' },
+                     leftElement: { color: '#333' },
+                  }}
                />
 
                <Card>
@@ -242,7 +246,8 @@ export default function Control({ navigation }: StackHeaderProps) {
                               text="Add profit"
                               onPress={handleAddProfit}
                               style={{
-                                 container: { backgroundColor: '#47b04b' },
+                                 container: { backgroundColor: '#00ff5f' },
+                                 text: { color: '#333' },
                               }}
                            />
                         </View>
@@ -368,8 +373,9 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     style={{
                                        container: {
                                           marginTop: 5,
-                                          backgroundColor: '#8e24aa',
+                                          backgroundColor: '#00ff5f',
                                        },
+                                       text: { color: '#333' },
                                     }}
                                  />
                               </View>
@@ -382,8 +388,9 @@ export default function Control({ navigation }: StackHeaderProps) {
                               onPress={() => setAdding(true)}
                               style={{
                                  container: {
-                                    backgroundColor: '#8e24aa',
+                                    backgroundColor: '#00ff5f',
                                  },
+                                 text: { color: '#333' },
                               }}
                            />
                         )}
@@ -400,6 +407,7 @@ export default function Control({ navigation }: StackHeaderProps) {
                                        },
                                     }}>
                                     <ListItem
+                                       leftElement="settings"
                                        centerElement={{
                                           primaryText: item.title,
                                           secondaryText: item.description,
@@ -454,13 +462,13 @@ export default function Control({ navigation }: StackHeaderProps) {
                                              },
                                           )}`,
                                        }}
-                                       rightElement="exposure-neg-1"
                                        onPress={() =>
                                           navigation.navigate('Settings', {
                                              item: index,
                                              handleUpdateItems,
                                           })
                                        }
+                                       rightElement="exposure-neg-1"
                                        onRightElementPress={() =>
                                           handleRemoveItem(index)
                                        }
@@ -469,13 +477,26 @@ export default function Control({ navigation }: StackHeaderProps) {
                                  </Card>
                               ))
                            ) : (
-                              <Text>It's okay. :)</Text>
+                              <View style={styles.listItem}>
+                                 <Text>There are no payments here.</Text>
+                              </View>
                            )}
                         </View>
                      </View>
                   )}
                </Card>
             </ScrollView>
+
+            <ActionButton
+               icon="delete"
+               style={{
+                  container: { backgroundColor: '#00ff5f' },
+                  icon: { color: '#333' },
+               }}
+               onPress={() =>
+                  navigation.navigate('Trash', { handleUpdateItems })
+               }
+            />
          </SafeAreaView>
       </>
    );
