@@ -147,9 +147,23 @@ export default function Control({ navigation }: StackHeaderProps) {
             setProfit(finalValue);
          }
 
-         if (newList[index].missingInstallments > 1) {
-            newList[index].missingInstallments--;
-         } else {
+         newList[index].missingInstallments--;
+
+         if (newList[index].missingInstallments === 0) {
+            const removedItems = await AsyncStorage.getItem('trash');
+            const parseRemovedItems: Item[] = [];
+
+            if (removedItems !== null) {
+               parseRemovedItems.push(...JSON.parse(removedItems));
+            }
+
+            parseRemovedItems.push(newList[index]);
+            
+            await AsyncStorage.setItem(
+               'trash',
+               JSON.stringify(parseRemovedItems),
+            );
+
             newList.splice(index, 1);
          }
 
@@ -365,6 +379,7 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     style={{
                                        container: {
                                           marginTop: 5,
+                                          marginBottom: 7,
                                           backgroundColor: '#00ff5f',
                                        },
                                        text: { color: '#333' },
@@ -381,39 +396,47 @@ export default function Control({ navigation }: StackHeaderProps) {
                               style={{
                                  container: {
                                     backgroundColor: '#00ff5f',
+                                    marginBottom: 15,
                                  },
                                  text: { color: '#333' },
                               }}
                            />
                         )}
-
-                        <View style={{ marginTop: 5, marginBottom: 5 }}>
-                           {list.length ? (
-                              list.map((item: Item, index: number) => (
-                                 <List
-                                    key={index}
-                                    item={item}
-                                    onPress={() =>
-                                       navigation.navigate('Settings', {
-                                          item: index,
-                                          handleUpdateItems,
-                                       })
-                                    }
-                                    rightElement="exposure-neg-1"
-                                    onRightElementPress={() =>
-                                       handleRemoveItem(index)
-                                    }
-                                 />
-                              ))
-                           ) : (
-                              <View style={{ marginTop: 5, marginBottom: 5 }}>
-                                 <Text>There are no payments here.</Text>
-                              </View>
-                           )}
-                        </View>
                      </View>
                   )}
                </Card>
+
+               {!loading && (
+                  <View
+                     style={{
+                        marginBottom: 5,
+                        marginLeft: 20,
+                        marginRight: 20,
+                     }}>
+                     {list.length ? (
+                        list.map((item: Item, index: number) => (
+                           <List
+                              key={index}
+                              item={item}
+                              onPress={() =>
+                                 navigation.navigate('Settings', {
+                                    item: index,
+                                    handleUpdateItems,
+                                 })
+                              }
+                              rightElement="exposure-neg-1"
+                              onRightElementPress={() =>
+                                 handleRemoveItem(index)
+                              }
+                           />
+                        ))
+                     ) : (
+                        <View style={{ marginTop: 5, marginBottom: 5 }}>
+                           <Text>There are no payments here.</Text>
+                        </View>
+                     )}
+                  </View>
+               )}
             </ScrollView>
 
             <ActionButton
@@ -423,7 +446,7 @@ export default function Control({ navigation }: StackHeaderProps) {
                   icon: { color: '#333' },
                }}
                onPress={() =>
-                  navigation.navigate('Trash', { handleUpdateItems })
+                  navigation.navigate('Trash can', { handleUpdateItems })
                }
             />
          </SafeAreaView>

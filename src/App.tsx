@@ -32,7 +32,7 @@ export default function App() {
             />
 
             <Screen
-               name="Trash"
+               name="Trash can"
                component={Trash}
                options={{
                   headerStyle: { backgroundColor: '#00ff5f' },

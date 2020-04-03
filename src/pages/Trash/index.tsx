@@ -39,7 +39,7 @@ export default function Trash({ route }) {
       })();
    }, []);
 
-   async function handleRemoveItem(index: number) {
+   async function RemoveItem(index: number) {
       try {
          const newList = [...list];
 
@@ -53,19 +53,36 @@ export default function Trash({ route }) {
       }
    }
 
+   function handleRemoveItem(index: number) {
+      Alert.alert(
+         'Remove item',
+         'Do you want to remove this item permanently?',
+         [
+            {
+               text: 'No',
+            },
+            { text: 'Yes', onPress: () => RemoveItem(index) },
+         ],
+      );
+   }
+
    async function restoreItem(index: number) {
       try {
          const currentList = await AsyncStorage.getItem('list');
 
          if (currentList !== null) {
-            const parsedList: Item[] = JSON.parse(currentList);
+            const parseList: Item[] = JSON.parse(currentList);
 
-            parsedList.push(list[index]);
+            const deletedItems = [...list];
+            deletedItems[index].missingInstallments =
+               deletedItems[index].installments;
 
-            await AsyncStorage.setItem('list', JSON.stringify(parsedList));
+            parseList.push(deletedItems[index]);
+
+            await AsyncStorage.setItem('list', JSON.stringify(parseList));
 
             handleUpdateItems();
-            handleRemoveItem(index);
+            RemoveItem(index);
          }
       } catch (err) {
          Alert.alert('Error', err);
