@@ -4,13 +4,7 @@ import { MaskService } from 'react-native-masked-text';
 
 import { Props } from './Interfaces';
 import ParseMoney from '../../helpers/ParseMoney';
-
-const config = {
-   precision: 2,
-   separator: ',',
-   delimiter: '.',
-   unit: 'R$ ',
-};
+import { MONEY_CONFIG } from '../../constants';
 
 export default function List({
    item,
@@ -37,7 +31,7 @@ export default function List({
                      (ParseMoney(item.money) + ParseMoney(item.tax)) /
                         item.installments,
                   ),
-                  config,
+                  MONEY_CONFIG,
                )} * ${item.missingInstallments} = ${MaskService.toMask(
                   'money',
                   String(
@@ -45,7 +39,7 @@ export default function List({
                         item.installments) *
                         item.missingInstallments,
                   ),
-                  config,
+                  MONEY_CONFIG,
                )}`,
             }}
             onPress={onPress}
