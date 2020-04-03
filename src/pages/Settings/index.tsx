@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackHeaderProps } from '@react-navigation/stack';
-
-import styles from './styles';
-import { Item } from '../Control/Interfaces';
 import { Button, Card, Divider } from 'react-native-material-ui';
-import { TextInputMask } from 'react-native-masked-text';
+
+import { Item } from '../../shared/Interfaces';
+import ParseMoney from '../../helpers/ParseMoney';
+import InputMoney from '../../components/InputMoney';
 
 // @ts-ignore
 export default function Settings({ route, navigation }: StackHeaderProps) {
@@ -62,8 +62,8 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
             description,
             money,
             tax,
-            installments: Number(installments.replace(/\D/g, '')),
-            missingInstallments: Number(missingInstallments.replace(/\D/g, '')),
+            installments: ParseMoney(installments),
+            missingInstallments: ParseMoney(missingInstallments),
          };
 
          const list = await AsyncStorage.getItem('list');
@@ -126,10 +126,10 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
    return (
       <>
          <StatusBar backgroundColor="#00ff5f" barStyle="dark-content" />
-         <SafeAreaView style={styles.root}>
+         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
-               style={styles.scrollView}>
+               style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                {loading ? (
                   <Text>Loading...</Text>
                ) : (
@@ -138,11 +138,18 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                         style={{
                            container: { paddingTop: 10, paddingBottom: 10 },
                         }}>
-                        <View style={styles.container}>
+                        <View
+                           style={{
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                              flex: 1,
+                           }}>
                            <View
                               style={{
-                                 ...styles.typeContainer,
-                                 ...styles.negativeMargin,
+                                 flexDirection: 'row',
+                                 alignItems: 'center',
+                                 marginTop: -5,
+                                 marginBottom: -5,
                               }}>
                               <Text>Title: </Text>
 
@@ -150,7 +157,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  placeholder="Type the title here..."
                                  value={title}
                                  onChangeText={(text) => setTitle(text)}
-                                 style={styles.inputMask}
+                                 style={{ flexGrow: 1 }}
                               />
                            </View>
 
@@ -158,8 +165,10 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
                            <View
                               style={{
-                                 ...styles.typeContainer,
-                                 ...styles.negativeMargin,
+                                 flexDirection: 'row',
+                                 alignItems: 'center',
+                                 marginTop: -5,
+                                 marginBottom: -5,
                               }}>
                               <Text>Description: </Text>
 
@@ -167,7 +176,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  placeholder="Type the title here..."
                                  value={description}
                                  onChangeText={(text) => setDescription(text)}
-                                 style={styles.inputMask}
+                                 style={{ flexGrow: 1 }}
                               />
                            </View>
 
@@ -175,22 +184,17 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
                            <View
                               style={{
-                                 ...styles.typeContainer,
-                                 ...styles.negativeMargin,
+                                 flexDirection: 'row',
+                                 alignItems: 'center',
+                                 marginTop: -5,
+                                 marginBottom: -5,
                               }}>
-                              <Text>Value: R$ </Text>
+                              <Text>Value: </Text>
 
-                              <TextInputMask
-                                 type="money"
-                                 options={{
-                                    precision: 2,
-                                    separator: ',',
-                                    delimiter: '.',
-                                    unit: '',
-                                 }}
+                              <InputMoney
                                  value={money}
                                  onChangeText={(text) => setMoney(text)}
-                                 style={styles.inputMask}
+                                 style={{ flexGrow: 1 }}
                               />
                            </View>
 
@@ -198,22 +202,17 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
                            <View
                               style={{
-                                 ...styles.typeContainer,
-                                 ...styles.negativeMargin,
+                                 flexDirection: 'row',
+                                 alignItems: 'center',
+                                 marginTop: -5,
+                                 marginBottom: -5,
                               }}>
-                              <Text>Tax: R$ </Text>
+                              <Text>Tax: </Text>
 
-                              <TextInputMask
-                                 type="money"
-                                 options={{
-                                    precision: 2,
-                                    separator: ',',
-                                    delimiter: '.',
-                                    unit: '',
-                                 }}
+                              <InputMoney
                                  value={tax}
                                  onChangeText={(text) => setTax(text)}
-                                 style={styles.inputMask}
+                                 style={{ flexGrow: 1 }}
                               />
                            </View>
 
@@ -221,8 +220,10 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
                            <View
                               style={{
-                                 ...styles.typeContainer,
-                                 ...styles.negativeMargin,
+                                 flexDirection: 'row',
+                                 alignItems: 'center',
+                                 marginTop: -5,
+                                 marginBottom: -5,
                               }}>
                               <Text>Installments: </Text>
 
@@ -230,7 +231,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  placeholder="Installments to be paid..."
                                  value={installments}
                                  onChangeText={(text) => setInstallments(text)}
-                                 style={styles.inputMask}
+                                 style={{ flexGrow: 1 }}
                                  keyboardType="numeric"
                               />
                            </View>
@@ -239,8 +240,10 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
                            <View
                               style={{
-                                 ...styles.typeContainer,
-                                 ...styles.negativeMargin,
+                                 flexDirection: 'row',
+                                 alignItems: 'center',
+                                 marginTop: -5,
+                                 marginBottom: -5,
                               }}>
                               <Text>Missing installments: </Text>
 
@@ -250,7 +253,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  onChangeText={(text) =>
                                     setMissingInstallments(text)
                                  }
-                                 style={styles.inputMask}
+                                 style={{ flexGrow: 1 }}
                                  keyboardType="numeric"
                               />
                            </View>

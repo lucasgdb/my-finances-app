@@ -11,17 +11,12 @@ import {
 import { StackHeaderProps } from '@react-navigation/stack';
 import { ActionButton } from 'react-native-material-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-   Toolbar,
-   ListItem,
-   Button,
-   Card,
-   Divider,
-} from 'react-native-material-ui';
-import { TextInputMask, MaskService } from 'react-native-masked-text';
+import { Toolbar, Button, Card, Divider } from 'react-native-material-ui';
 
-import styles from './styles';
-import { Item } from './Interfaces';
+import { Item } from '../../shared/Interfaces';
+import ParseMoney from '../../helpers/ParseMoney';
+import InputMoney from '../../components/InputMoney';
+import List from '../../components/List';
 
 export default function Control({ navigation }: StackHeaderProps) {
    const [loading, setLoading] = useState(true);
@@ -60,8 +55,8 @@ export default function Control({ navigation }: StackHeaderProps) {
 
    async function handleAddProfit() {
       try {
-         const currentProfit = Number(profit.replace(/\D/g, ''));
-         const newAddMoney = Number(addProfit.replace(/\D/g, ''));
+         const currentProfit = ParseMoney(profit);
+         const newAddMoney = ParseMoney(addProfit);
 
          const finalValue = String(currentProfit + newAddMoney);
 
@@ -76,7 +71,7 @@ export default function Control({ navigation }: StackHeaderProps) {
 
    async function handleChangeProfit(newProfit: string) {
       try {
-         await AsyncStorage.setItem('profit', newProfit.replace(/\D/g, ''));
+         await AsyncStorage.setItem('profit', ParseMoney(newProfit).toString());
 
          setProfit(newProfit);
       } catch (err) {
@@ -90,7 +85,7 @@ export default function Control({ navigation }: StackHeaderProps) {
             title !== '' &&
             description !== '' &&
             money !== '' &&
-            Number(money.replace(/\D/g, '')) > 0 &&
+            ParseMoney(money) > 0 &&
             Number(installments) > 0
          ) {
             const newList = [
@@ -129,8 +124,8 @@ export default function Control({ navigation }: StackHeaderProps) {
             newList[index].installments -
             (newList[index].missingInstallments - 1);
 
-         const moneyToPay = Number(newList[index].money.replace(/\D/g, ''));
-         const taxToPay = Number(newList[index].tax.replace(/\D/g, ''));
+         const moneyToPay = ParseMoney(newList[index].money);
+         const taxToPay = ParseMoney(newList[index].tax);
          const total = moneyToPay + taxToPay;
 
          const moneyPerInstallment = total / newList[index].installments;
@@ -141,7 +136,7 @@ export default function Control({ navigation }: StackHeaderProps) {
             const missingTax = paidMoney - moneyToPay;
 
             const finalValue = String(
-               Number(profit.replace(/\D/g, '')) +
+               ParseMoney(profit) +
                   (missingTax > moneyPerInstallment
                      ? moneyPerInstallment
                      : missingTax),
@@ -181,10 +176,10 @@ export default function Control({ navigation }: StackHeaderProps) {
    return (
       <>
          <StatusBar backgroundColor="#00ff5f" barStyle="dark-content" />
-         <SafeAreaView style={styles.root}>
+         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
-               style={styles.scrollView}>
+               style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                <Toolbar
                   leftElement="menu"
                   centerElement="My Finances"
@@ -197,47 +192,48 @@ export default function Control({ navigation }: StackHeaderProps) {
 
                <Card>
                   {loading ? (
-                     <View style={styles.container}>
+                     <View
+                        style={{
+                           paddingLeft: 20,
+                           paddingRight: 20,
+                           paddingTop: 15,
+                           paddingBottom: 15,
+                           flex: 1,
+                        }}>
                         <Text>Loading your app...</Text>
                      </View>
                   ) : (
-                     <View style={styles.container}>
-                        <View style={styles.typeContainer}>
-                           <Text style={styles.currentMoney}>
-                              Your current profit: R$
+                     <View
+                        style={{ paddingLeft: 20, paddingRight: 20, flex: 1 }}>
+                        <View
+                           style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                           }}>
+                           <Text style={{ fontSize: 19 }}>
+                              Your current profit:
                            </Text>
 
-                           <TextInputMask
-                              type="money"
-                              options={{
-                                 precision: 2,
-                                 separator: ',',
-                                 delimiter: '.',
-                                 unit: '',
-                              }}
+                           <InputMoney
                               value={profit}
-                              onChangeText={(text) => handleChangeProfit(text)}
-                              style={{
-                                 ...styles.currentMoney,
-                                 ...styles.inputMask,
-                              }}
+                              onChangeText={(text: string) =>
+                                 handleChangeProfit(text)
+                              }
+                              style={{ fontSize: 19, flexGrow: 1 }}
                            />
                         </View>
 
-                        <View style={styles.typeContainer}>
-                           <Text>Amount: R$ </Text>
+                        <View
+                           style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                           }}>
+                           <Text>Amount: </Text>
 
-                           <TextInputMask
-                              type="money"
-                              options={{
-                                 precision: 2,
-                                 separator: ',',
-                                 delimiter: '.',
-                                 unit: '',
-                              }}
+                           <InputMoney
                               value={addProfit}
                               onChangeText={(text) => setAddProfit(text)}
-                              style={styles.inputMask}
+                              style={{ flexGrow: 1 }}
                            />
 
                            <Button
@@ -256,8 +252,10 @@ export default function Control({ navigation }: StackHeaderProps) {
                            <>
                               <View
                                  style={{
-                                    ...styles.typeContainer,
-                                    ...styles.negativeMargin,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginTop: -5,
+                                    marginBottom: -5,
                                  }}>
                                  <Text>Title: </Text>
 
@@ -265,7 +263,7 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     placeholder="Type the title here..."
                                     value={title}
                                     onChangeText={(text) => setTitle(text)}
-                                    style={styles.inputMask}
+                                    style={{ flexGrow: 1 }}
                                  />
                               </View>
 
@@ -273,8 +271,10 @@ export default function Control({ navigation }: StackHeaderProps) {
 
                               <View
                                  style={{
-                                    ...styles.typeContainer,
-                                    ...styles.negativeMargin,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginTop: -5,
+                                    marginBottom: -5,
                                  }}>
                                  <Text>Description: </Text>
 
@@ -284,7 +284,7 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     onChangeText={(text) =>
                                        setDescription(text)
                                     }
-                                    style={styles.inputMask}
+                                    style={{ flexGrow: 1 }}
                                  />
                               </View>
 
@@ -292,22 +292,17 @@ export default function Control({ navigation }: StackHeaderProps) {
 
                               <View
                                  style={{
-                                    ...styles.typeContainer,
-                                    ...styles.negativeMargin,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginTop: -5,
+                                    marginBottom: -5,
                                  }}>
-                                 <Text>Value: R$ </Text>
+                                 <Text>Value: </Text>
 
-                                 <TextInputMask
-                                    type="money"
-                                    options={{
-                                       precision: 2,
-                                       separator: ',',
-                                       delimiter: '.',
-                                       unit: '',
-                                    }}
+                                 <InputMoney
                                     value={money}
                                     onChangeText={(text) => setMoney(text)}
-                                    style={styles.inputMask}
+                                    style={{ flexGrow: 1 }}
                                  />
                               </View>
 
@@ -315,22 +310,17 @@ export default function Control({ navigation }: StackHeaderProps) {
 
                               <View
                                  style={{
-                                    ...styles.typeContainer,
-                                    ...styles.negativeMargin,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginTop: -5,
+                                    marginBottom: -5,
                                  }}>
-                                 <Text>Tax: R$ </Text>
+                                 <Text>Tax: </Text>
 
-                                 <TextInputMask
-                                    type="money"
-                                    options={{
-                                       precision: 2,
-                                       separator: ',',
-                                       delimiter: '.',
-                                       unit: '',
-                                    }}
+                                 <InputMoney
                                     value={tax}
                                     onChangeText={(text) => setTax(text)}
-                                    style={styles.inputMask}
+                                    style={{ flexGrow: 1 }}
                                  />
                               </View>
 
@@ -338,8 +328,10 @@ export default function Control({ navigation }: StackHeaderProps) {
 
                               <View
                                  style={{
-                                    ...styles.typeContainer,
-                                    ...styles.negativeMargin,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginTop: -5,
+                                    marginBottom: -5,
                                  }}>
                                  <Text>Installments: </Text>
 
@@ -349,12 +341,12 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     onChangeText={(text) =>
                                        setInstallments(text)
                                     }
-                                    style={styles.inputMask}
+                                    style={{ flexGrow: 1 }}
                                     keyboardType="numeric"
                                  />
                               </View>
 
-                              <View style={styles.buttonContainer}>
+                              <View>
                                  <Button
                                     accent
                                     raised
@@ -395,89 +387,26 @@ export default function Control({ navigation }: StackHeaderProps) {
                            />
                         )}
 
-                        <View style={styles.listItem}>
+                        <View style={{ marginTop: 5, marginBottom: 5 }}>
                            {list.length ? (
                               list.map((item: Item, index: number) => (
-                                 <Card
+                                 <List
                                     key={index}
-                                    style={{
-                                       container: {
-                                          marginLeft: 0,
-                                          marginRight: 0,
-                                       },
-                                    }}>
-                                    <ListItem
-                                       leftElement="settings"
-                                       centerElement={{
-                                          primaryText: item.title,
-                                          secondaryText: item.description,
-                                          tertiaryText: `${MaskService.toMask(
-                                             'money',
-                                             String(
-                                                (Number(
-                                                   item.money.replace(
-                                                      /\D/g,
-                                                      '',
-                                                   ),
-                                                ) +
-                                                   Number(
-                                                      item.tax.replace(
-                                                         /\D/g,
-                                                         '',
-                                                      ),
-                                                   )) /
-                                                   item.installments,
-                                             ),
-                                             {
-                                                precision: 2,
-                                                separator: ',',
-                                                delimiter: '.',
-                                                unit: 'R$ ',
-                                             },
-                                          )} * ${
-                                             item.missingInstallments
-                                          } = ${MaskService.toMask(
-                                             'money',
-                                             String(
-                                                ((Number(
-                                                   item.money.replace(
-                                                      /\D/g,
-                                                      '',
-                                                   ),
-                                                ) +
-                                                   Number(
-                                                      item.tax.replace(
-                                                         /\D/g,
-                                                         '',
-                                                      ),
-                                                   )) /
-                                                   item.installments) *
-                                                   item.missingInstallments,
-                                             ),
-                                             {
-                                                precision: 2,
-                                                separator: ',',
-                                                delimiter: '.',
-                                                unit: 'R$ ',
-                                             },
-                                          )}`,
-                                       }}
-                                       onPress={() =>
-                                          navigation.navigate('Settings', {
-                                             item: index,
-                                             handleUpdateItems,
-                                          })
-                                       }
-                                       rightElement="exposure-neg-1"
-                                       onRightElementPress={() =>
-                                          handleRemoveItem(index)
-                                       }
-                                       divider
-                                    />
-                                 </Card>
+                                    item={item}
+                                    onPress={() =>
+                                       navigation.navigate('Settings', {
+                                          item: index,
+                                          handleUpdateItems,
+                                       })
+                                    }
+                                    rightElement="exposure-neg-1"
+                                    onRightElementPress={() =>
+                                       handleRemoveItem(index)
+                                    }
+                                 />
                               ))
                            ) : (
-                              <View style={styles.listItem}>
+                              <View style={{ marginTop: 5, marginBottom: 5 }}>
                                  <Text>There are no payments here.</Text>
                               </View>
                            )}
