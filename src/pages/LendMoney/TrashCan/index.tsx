@@ -10,9 +10,8 @@ import {
 import { Card } from 'react-native-material-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import styles from './styles';
-import { Item } from '../../shared/Interfaces';
-import List from '../../components/List';
+import { Item } from '../../../shared/Interfaces';
+import List from '../../../components/List';
 
 // @ts-ignore
 export default function Trash({ route }) {
@@ -74,8 +73,7 @@ export default function Trash({ route }) {
             const parseList: Item[] = JSON.parse(currentList);
 
             const deletedItems = [...list];
-            deletedItems[index].missingInstallments =
-               deletedItems[index].installments;
+            deletedItems[index].missingInstallments = 1;
 
             parseList.push(deletedItems[index]);
 
@@ -101,37 +99,47 @@ export default function Trash({ route }) {
    return (
       <>
          <StatusBar backgroundColor="#00ff5f" barStyle="dark-content" />
-         <SafeAreaView style={styles.root}>
+         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
-               style={styles.scrollView}>
-               <Card
+               style={{ backgroundColor: '#191a21' }}>
+               <View
                   style={{
-                     container: { paddingTop: 10, paddingBottom: 10 },
+                     marginTop: 7,
+                     marginLeft: 20,
+                     marginRight: 20,
                   }}>
-                  <View style={styles.container}>
-                     <View style={styles.listItem}>
-                        {!loading && list.length ? (
-                           list.map((item: Item, index: number) => (
-                              <List
-                                 key={index}
-                                 item={item}
-                                 onPress={() => handleRestoreItem(index)}
-                                 rightElement="delete"
-                                 style={{
-                                    rightElement: { color: '#fe0000' },
-                                 }}
-                                 onRightElementPress={() =>
-                                    handleRemoveItem(index)
-                                 }
-                              />
-                           ))
-                        ) : (
-                           <Text>There is no trash here.</Text>
-                        )}
+                  {!loading && list.length ? (
+                     list.map((item: Item, index: number) => (
+                        <List
+                           key={index}
+                           item={item}
+                           onPress={() => handleRestoreItem(index)}
+                           rightElement="delete"
+                           style={{
+                              container: { backgroundColor: '#282a36' },
+                              primaryText: { color: '#fafafb' },
+                              secondaryText: { color: '#666' },
+                              tertiaryText: { color: '#777' },
+                              rightElement: { color: '#fe0000' },
+                           }}
+                           onRightElementPress={() => handleRemoveItem(index)}
+                        />
+                     ))
+                  ) : (
+                     <View
+                        style={{
+                           backgroundColor: '#282a36',
+                           paddingTop: 15,
+                           paddingBottom: 15,
+                           paddingLeft: 15,
+                        }}>
+                        <Text style={{ color: '#fafafb' }}>
+                           There is no trash here.
+                        </Text>
                      </View>
-                  </View>
-               </Card>
+                  )}
+               </View>
             </ScrollView>
          </SafeAreaView>
       </>

@@ -11,14 +11,14 @@ import {
 import { StackHeaderProps } from '@react-navigation/stack';
 import { ActionButton } from 'react-native-material-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Toolbar, Button, Card, Divider } from 'react-native-material-ui';
+import { Button, Card, Divider } from 'react-native-material-ui';
 
 import { Item } from '../../shared/Interfaces';
 import ParseMoney from '../../helpers/ParseMoney';
 import InputMoney from '../../components/InputMoney';
 import List from '../../components/List';
 
-export default function Control({ navigation }: StackHeaderProps) {
+export default function LendMoney({ navigation }: StackHeaderProps) {
    const [loading, setLoading] = useState(true);
    const [profit, setProfit] = useState('000');
    const [addProfit, setAddProfit] = useState('000');
@@ -158,7 +158,7 @@ export default function Control({ navigation }: StackHeaderProps) {
             }
 
             parseRemovedItems.push(newList[index]);
-            
+
             await AsyncStorage.setItem(
                'trash',
                JSON.stringify(parseRemovedItems),
@@ -193,17 +193,7 @@ export default function Control({ navigation }: StackHeaderProps) {
          <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
-               style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
-               <Toolbar
-                  leftElement="menu"
-                  centerElement="My Finances"
-                  style={{
-                     container: { backgroundColor: '#00ff5f' },
-                     titleText: { color: '#333' },
-                     leftElement: { color: '#333' },
-                  }}
-               />
-
+               style={{ backgroundColor: '#191a21' }}>
                <Card>
                   {loading ? (
                      <View
@@ -218,13 +208,18 @@ export default function Control({ navigation }: StackHeaderProps) {
                      </View>
                   ) : (
                      <View
-                        style={{ paddingLeft: 20, paddingRight: 20, flex: 1 }}>
+                        style={{
+                           paddingLeft: 20,
+                           paddingRight: 20,
+                           flex: 1,
+                           backgroundColor: '#282a36',
+                        }}>
                         <View
                            style={{
                               flexDirection: 'row',
                               alignItems: 'center',
                            }}>
-                           <Text style={{ fontSize: 19 }}>
+                           <Text style={{ fontSize: 19, color: '#fafafb' }}>
                               Your current profit:
                            </Text>
 
@@ -233,7 +228,11 @@ export default function Control({ navigation }: StackHeaderProps) {
                               onChangeText={(text: string) =>
                                  handleChangeProfit(text)
                               }
-                              style={{ fontSize: 19, flexGrow: 1 }}
+                              style={{
+                                 fontSize: 19,
+                                 flexGrow: 1,
+                                 color: '#fafafb',
+                              }}
                            />
                         </View>
 
@@ -242,12 +241,12 @@ export default function Control({ navigation }: StackHeaderProps) {
                               flexDirection: 'row',
                               alignItems: 'center',
                            }}>
-                           <Text>Amount: </Text>
+                           <Text style={{ color: '#fafafb' }}>Amount: </Text>
 
                            <InputMoney
                               value={addProfit}
                               onChangeText={(text) => setAddProfit(text)}
-                              style={{ flexGrow: 1 }}
+                              style={{ flexGrow: 1, color: '#fafafb' }}
                            />
 
                            <Button
@@ -271,13 +270,16 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     marginTop: -5,
                                     marginBottom: -5,
                                  }}>
-                                 <Text>Title: </Text>
+                                 <Text style={{ color: '#fafafb' }}>
+                                    Title:{' '}
+                                 </Text>
 
                                  <TextInput
                                     placeholder="Type the title here..."
                                     value={title}
                                     onChangeText={(text) => setTitle(text)}
-                                    style={{ flexGrow: 1 }}
+                                    placeholderTextColor="#575757"
+                                    style={{ flexGrow: 1, color: '#fafafb' }}
                                  />
                               </View>
 
@@ -290,7 +292,9 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     marginTop: -5,
                                     marginBottom: -5,
                                  }}>
-                                 <Text>Description: </Text>
+                                 <Text style={{ color: '#fafafb' }}>
+                                    Description:{' '}
+                                 </Text>
 
                                  <TextInput
                                     placeholder="Type the title here..."
@@ -298,7 +302,8 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     onChangeText={(text) =>
                                        setDescription(text)
                                     }
-                                    style={{ flexGrow: 1 }}
+                                    placeholderTextColor="#575757"
+                                    style={{ flexGrow: 1, color: '#fafafb' }}
                                  />
                               </View>
 
@@ -311,12 +316,14 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     marginTop: -5,
                                     marginBottom: -5,
                                  }}>
-                                 <Text>Value: </Text>
+                                 <Text style={{ color: '#fafafb' }}>
+                                    Value:{' '}
+                                 </Text>
 
                                  <InputMoney
                                     value={money}
                                     onChangeText={(text) => setMoney(text)}
-                                    style={{ flexGrow: 1 }}
+                                    style={{ flexGrow: 1, color: '#fafafb' }}
                                  />
                               </View>
 
@@ -329,12 +336,12 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     marginTop: -5,
                                     marginBottom: -5,
                                  }}>
-                                 <Text>Tax: </Text>
+                                 <Text style={{ color: '#fafafb' }}>Tax: </Text>
 
                                  <InputMoney
                                     value={tax}
                                     onChangeText={(text) => setTax(text)}
-                                    style={{ flexGrow: 1 }}
+                                    style={{ flexGrow: 1, color: '#fafafb' }}
                                  />
                               </View>
 
@@ -347,7 +354,9 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     marginTop: -5,
                                     marginBottom: -5,
                                  }}>
-                                 <Text>Installments: </Text>
+                                 <Text style={{ color: '#fafafb' }}>
+                                    Installments:{' '}
+                                 </Text>
 
                                  <TextInput
                                     placeholder="Installments to be paid..."
@@ -355,7 +364,8 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     onChangeText={(text) =>
                                        setInstallments(text)
                                     }
-                                    style={{ flexGrow: 1 }}
+                                    placeholderTextColor="#575757"
+                                    style={{ flexGrow: 1, color: '#fafafb' }}
                                     keyboardType="numeric"
                                  />
                               </View>
@@ -379,7 +389,7 @@ export default function Control({ navigation }: StackHeaderProps) {
                                     style={{
                                        container: {
                                           marginTop: 5,
-                                          marginBottom: 7,
+                                          marginBottom: 15,
                                           backgroundColor: '#00ff5f',
                                        },
                                        text: { color: '#333' },
@@ -428,11 +438,20 @@ export default function Control({ navigation }: StackHeaderProps) {
                               onRightElementPress={() =>
                                  handleRemoveItem(index)
                               }
+                              style={{
+                                 container: { backgroundColor: '#282a36' },
+                                 primaryText: { color: '#fafafb' },
+                                 secondaryText: { color: '#666' },
+                                 tertiaryText: { color: '#777' },
+                                 rightElement: { color: '#fafafb' },
+                              }}
                            />
                         ))
                      ) : (
                         <View style={{ marginTop: 5, marginBottom: 5 }}>
-                           <Text>There are no payments here.</Text>
+                           <Text style={{ color: '#fafafb' }}>
+                              There are no payments here.
+                           </Text>
                         </View>
                      )}
                   </View>

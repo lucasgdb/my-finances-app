@@ -46,7 +46,6 @@ export default function List({
             rightElement={rightElement}
             onRightElementPress={onRightElementPress}
             style={style}
-            divider
          />
       </Card>
    );

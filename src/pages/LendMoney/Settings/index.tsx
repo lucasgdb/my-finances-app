@@ -12,9 +12,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { Button, Card, Divider } from 'react-native-material-ui';
 
-import { Item } from '../../shared/Interfaces';
-import ParseMoney from '../../helpers/ParseMoney';
-import InputMoney from '../../components/InputMoney';
+import { Item } from '../../../shared/Interfaces';
+import ParseMoney from '../../../helpers/ParseMoney';
+import InputMoney from '../../../components/InputMoney';
 
 // @ts-ignore
 export default function Settings({ route, navigation }: StackHeaderProps) {
@@ -57,27 +57,36 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
    async function handleSaveItem() {
       try {
-         const newList: Item = {
-            title,
-            description,
-            money,
-            tax,
-            installments: ParseMoney(installments),
-            missingInstallments: ParseMoney(missingInstallments),
-         };
+         if (
+            title !== '' &&
+            description !== '' &&
+            money !== '' &&
+            ParseMoney(money) > 0 &&
+            Number(installments) > 0 &&
+            Number(missingInstallments) > 0
+         ) {
+            const newList: Item = {
+               title,
+               description,
+               money,
+               tax,
+               installments: ParseMoney(installments),
+               missingInstallments: ParseMoney(missingInstallments),
+            };
 
-         const list = await AsyncStorage.getItem('list');
+            const list = await AsyncStorage.getItem('list');
 
-         if (list !== null) {
-            const currentList = JSON.parse(list);
+            if (list !== null) {
+               const currentList = JSON.parse(list);
 
-            currentList[item] = newList;
+               currentList[item] = newList;
 
-            await AsyncStorage.setItem('list', JSON.stringify(currentList));
+               await AsyncStorage.setItem('list', JSON.stringify(currentList));
 
-            handleUpdateItems();
+               handleUpdateItems();
 
-            navigation.navigate('Control');
+               navigation.navigate('LendMoney');
+            }
          }
       } catch (err) {
          Alert.alert('Error', err);
@@ -109,7 +118,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
             handleUpdateItems();
 
-            navigation.navigate('Control');
+            navigation.navigate('LendMoney');
          }
       } catch (err) {
          Alert.alert('Error', err);
@@ -129,14 +138,18 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
          <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
-               style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
+               style={{ backgroundColor: '#191a21' }}>
                {loading ? (
                   <Text>Loading...</Text>
                ) : (
                   <>
                      <Card
                         style={{
-                           container: { paddingTop: 10, paddingBottom: 10 },
+                           container: {
+                              paddingTop: 10,
+                              paddingBottom: 10,
+                              backgroundColor: '#282a36',
+                           },
                         }}>
                         <View
                            style={{
@@ -151,13 +164,14 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: -5,
                                  marginBottom: -5,
                               }}>
-                              <Text>Title: </Text>
+                              <Text style={{ color: '#fafafb' }}>Title: </Text>
 
                               <TextInput
                                  placeholder="Type the title here..."
                                  value={title}
                                  onChangeText={(text) => setTitle(text)}
-                                 style={{ flexGrow: 1 }}
+                                 placeholderTextColor="#575757"
+                                 style={{ flexGrow: 1, color: '#fafafb' }}
                               />
                            </View>
 
@@ -170,13 +184,16 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: -5,
                                  marginBottom: -5,
                               }}>
-                              <Text>Description: </Text>
+                              <Text style={{ color: '#fafafb' }}>
+                                 Description:{' '}
+                              </Text>
 
                               <TextInput
                                  placeholder="Type the title here..."
                                  value={description}
                                  onChangeText={(text) => setDescription(text)}
-                                 style={{ flexGrow: 1 }}
+                                 placeholderTextColor="#575757"
+                                 style={{ flexGrow: 1, color: '#fafafb' }}
                               />
                            </View>
 
@@ -189,12 +206,12 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: -5,
                                  marginBottom: -5,
                               }}>
-                              <Text>Value: </Text>
+                              <Text style={{ color: '#fafafb' }}>Value: </Text>
 
                               <InputMoney
                                  value={money}
-                                 onChangeText={(text) => setMoney(text)}
-                                 style={{ flexGrow: 1 }}
+                                 onChangeText={(text: string) => setMoney(text)}
+                                 style={{ flexGrow: 1, color: '#fafafb' }}
                               />
                            </View>
 
@@ -207,12 +224,12 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: -5,
                                  marginBottom: -5,
                               }}>
-                              <Text>Tax: </Text>
+                              <Text style={{ color: '#fafafb' }}>Tax: </Text>
 
                               <InputMoney
                                  value={tax}
-                                 onChangeText={(text) => setTax(text)}
-                                 style={{ flexGrow: 1 }}
+                                 onChangeText={(text: string) => setTax(text)}
+                                 style={{ flexGrow: 1, color: '#fafafb' }}
                               />
                            </View>
 
@@ -225,13 +242,16 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: -5,
                                  marginBottom: -5,
                               }}>
-                              <Text>Installments: </Text>
+                              <Text style={{ color: '#fafafb' }}>
+                                 Installments:{' '}
+                              </Text>
 
                               <TextInput
                                  placeholder="Installments to be paid..."
                                  value={installments}
                                  onChangeText={(text) => setInstallments(text)}
-                                 style={{ flexGrow: 1 }}
+                                 style={{ flexGrow: 1, color: '#fafafb' }}
+                                 placeholderTextColor="#575757"
                                  keyboardType="numeric"
                               />
                            </View>
@@ -245,7 +265,9 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: -5,
                                  marginBottom: -5,
                               }}>
-                              <Text>Missing installments: </Text>
+                              <Text style={{ color: '#fafafb' }}>
+                                 Missing installments:{' '}
+                              </Text>
 
                               <TextInput
                                  placeholder="Missing installments..."
@@ -253,7 +275,8 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  onChangeText={(text) =>
                                     setMissingInstallments(text)
                                  }
-                                 style={{ flexGrow: 1 }}
+                                 style={{ flexGrow: 1, color: '#fafafb' }}
+                                 placeholderTextColor="#575757"
                                  keyboardType="numeric"
                               />
                            </View>
