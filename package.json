@@ -20,7 +20,7 @@
       "@react-navigation/native": "^5.1.4",
       "@react-navigation/stack": "^5.2.9",
       "react": "16.11.0",
-      "react-native": "0.62.0",
+      "react-native": "^0.62.1",
       "react-native-gesture-handler": "^1.6.1",
       "react-native-masked-text": "^1.13.0",
       "react-native-material-ui": "^1.30.1",
