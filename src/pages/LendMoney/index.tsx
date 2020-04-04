@@ -283,7 +283,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider />
+                              <Divider
+                                 style={{
+                                    container: { backgroundColor: '#444' },
+                                 }}
+                              />
 
                               <View
                                  style={{
@@ -307,7 +311,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider />
+                              <Divider
+                                 style={{
+                                    container: { backgroundColor: '#444' },
+                                 }}
+                              />
 
                               <View
                                  style={{
@@ -327,7 +335,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider />
+                              <Divider
+                                 style={{
+                                    container: { backgroundColor: '#444' },
+                                 }}
+                              />
 
                               <View
                                  style={{
@@ -345,7 +357,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider />
+                              <Divider
+                                 style={{
+                                    container: { backgroundColor: '#444' },
+                                 }}
+                              />
 
                               <View
                                  style={{

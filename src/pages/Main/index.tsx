@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { View, StatusBar, SafeAreaView, ScrollView } from 'react-native';
 
 import SquarePage from './SquarePage';
 import { Toolbar } from 'react-native-material-ui';

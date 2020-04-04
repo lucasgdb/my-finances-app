@@ -175,7 +175,11 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider />
+                           <Divider
+                              style={{
+                                 container: { backgroundColor: '#444' },
+                              }}
+                           />
 
                            <View
                               style={{
@@ -197,7 +201,11 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider />
+                           <Divider
+                              style={{
+                                 container: { backgroundColor: '#444' },
+                              }}
+                           />
 
                            <View
                               style={{
@@ -215,7 +223,11 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider />
+                           <Divider
+                              style={{
+                                 container: { backgroundColor: '#444' },
+                              }}
+                           />
 
                            <View
                               style={{
@@ -233,7 +245,11 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider />
+                           <Divider
+                              style={{
+                                 container: { backgroundColor: '#444' },
+                              }}
+                           />
 
                            <View
                               style={{
@@ -256,7 +272,11 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider />
+                           <Divider
+                              style={{
+                                 container: { backgroundColor: '#444' },
+                              }}
+                           />
 
                            <View
                               style={{

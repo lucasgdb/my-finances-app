@@ -7,7 +7,6 @@ import {
    Text,
    Alert,
 } from 'react-native';
-import { Card } from 'react-native-material-ui';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { Item } from '../../../shared/Interfaces';
@@ -73,7 +72,10 @@ export default function Trash({ route }) {
             const parseList: Item[] = JSON.parse(currentList);
 
             const deletedItems = [...list];
-            deletedItems[index].missingInstallments = 1;
+            deletedItems[index].missingInstallments =
+               deletedItems[index].missingInstallments > 1
+                  ? deletedItems[index].missingInstallments
+                  : 1;
 
             parseList.push(deletedItems[index]);
 
