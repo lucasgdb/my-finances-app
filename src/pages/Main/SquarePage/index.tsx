@@ -1,11 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Divider } from 'react-native-material-ui';
-
-import { Props } from './Interfaces';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function SquarePage({ title, description, onPress }: Props) {
+import { Props } from './Interfaces';
+import Divider from '../../../components/Divider';
+import { Icon } from 'react-native-material-ui';
+
+export default function SquarePage({
+   title,
+   description,
+   onPress,
+   icon,
+}: Props) {
    return (
       <View
          style={{
@@ -16,13 +22,14 @@ export default function SquarePage({ title, description, onPress }: Props) {
             borderWidth: 0.5,
             borderColor: '#333',
          }}>
-         <TouchableOpacity onPress={onPress}>
+         <TouchableOpacity onPress={onPress ? onPress : () => {}}>
             <View
                style={{
                   alignItems: 'center',
                   marginTop: 15,
                   marginBottom: 15,
                }}>
+               {icon && <Icon name={icon} color="#333" />}
                <Text
                   style={{
                      fontSize: 23,
@@ -34,15 +41,12 @@ export default function SquarePage({ title, description, onPress }: Props) {
             </View>
 
             <View style={{ alignItems: 'center' }}>
-               <Divider style={{ container: { width: '90%' } }} />
+               <Divider style={{ width: '90%' }} />
             </View>
 
             <View
                style={{
-                  marginLeft: 10,
-                  marginRight: 10,
-                  marginTop: 20,
-                  marginBottom: 20,
+                  margin: 20,
                }}>
                <Text
                   style={{

@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackHeaderProps } from '@react-navigation/stack';
-import { Button, Card, Divider } from 'react-native-material-ui';
+import { Button, Card } from 'react-native-material-ui';
 
 import { Item } from '../../../shared/Interfaces';
 import ParseMoney from '../../../helpers/ParseMoney';
 import InputMoney from '../../../components/InputMoney';
+import Divider from '../../../components/Divider';
 
 // @ts-ignore
 export default function Settings({ route, navigation }: StackHeaderProps) {
@@ -175,11 +176,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider
-                              style={{
-                                 container: { backgroundColor: '#444' },
-                              }}
-                           />
+                           <Divider light />
 
                            <View
                               style={{
@@ -201,11 +198,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider
-                              style={{
-                                 container: { backgroundColor: '#444' },
-                              }}
-                           />
+                           <Divider light />
 
                            <View
                               style={{
@@ -223,11 +216,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider
-                              style={{
-                                 container: { backgroundColor: '#444' },
-                              }}
-                           />
+                           <Divider light />
 
                            <View
                               style={{
@@ -245,11 +234,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider
-                              style={{
-                                 container: { backgroundColor: '#444' },
-                              }}
-                           />
+                           <Divider light />
 
                            <View
                               style={{
@@ -272,11 +257,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               />
                            </View>
 
-                           <Divider
-                              style={{
-                                 container: { backgroundColor: '#444' },
-                              }}
-                           />
+                           <Divider light />
 
                            <View
                               style={{

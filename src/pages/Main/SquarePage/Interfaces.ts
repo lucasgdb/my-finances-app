@@ -1,5 +1,6 @@
 export interface Props {
    title: string;
    description: string;
-   onPress: () => void;
+   onPress?: () => void;
+   icon?: string;
 }

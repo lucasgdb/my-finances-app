@@ -37,6 +37,12 @@ export default function Main({ navigation }) {
                      title="Lend money"
                      description="Control your finances by lending money to people and getting a percentage back."
                      onPress={() => navigation.navigate('LendMoney')}
+                     icon="attach-money"
+                  />
+
+                  <SquarePage
+                     title="Coming soon"
+                     description="More features are coming soon."
                   />
                </View>
             </ScrollView>

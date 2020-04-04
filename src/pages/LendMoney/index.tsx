@@ -11,12 +11,13 @@ import {
 import { StackHeaderProps } from '@react-navigation/stack';
 import { ActionButton } from 'react-native-material-ui';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Button, Card, Divider } from 'react-native-material-ui';
+import { Button, Card } from 'react-native-material-ui';
 
 import { Item } from '../../shared/Interfaces';
 import ParseMoney from '../../helpers/ParseMoney';
 import InputMoney from '../../components/InputMoney';
 import List from '../../components/List';
+import Divider from '../../components/Divider';
 
 export default function LendMoney({ navigation }: StackHeaderProps) {
    const [loading, setLoading] = useState(true);
@@ -240,6 +241,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                            style={{
                               flexDirection: 'row',
                               alignItems: 'center',
+                              marginBottom: 10,
                            }}>
                            <Text style={{ color: '#fafafb' }}>Amount: </Text>
 
@@ -283,11 +285,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider
-                                 style={{
-                                    container: { backgroundColor: '#444' },
-                                 }}
-                              />
+                              <Divider light />
 
                               <View
                                  style={{
@@ -311,11 +309,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider
-                                 style={{
-                                    container: { backgroundColor: '#444' },
-                                 }}
-                              />
+                              <Divider light />
 
                               <View
                                  style={{
@@ -335,11 +329,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider
-                                 style={{
-                                    container: { backgroundColor: '#444' },
-                                 }}
-                              />
+                              <Divider light />
 
                               <View
                                  style={{
@@ -357,11 +347,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
                               </View>
 
-                              <Divider
-                                 style={{
-                                    container: { backgroundColor: '#444' },
-                                 }}
-                              />
+                              <Divider light />
 
                               <View
                                  style={{
@@ -466,7 +452,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                      ) : (
                         <View style={{ marginTop: 5, marginBottom: 5 }}>
                            <Text style={{ color: '#fafafb' }}>
-                              There are no payments here.
+                              There is no lent money here.
                            </Text>
                         </View>
                      )}
