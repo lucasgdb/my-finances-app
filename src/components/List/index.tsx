@@ -19,6 +19,7 @@ export default function List({
             container: {
                marginLeft: 0,
                marginRight: 0,
+               borderRadius: 0,
             },
          }}>
          <ListItem

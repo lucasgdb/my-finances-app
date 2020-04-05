@@ -162,17 +162,25 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               style={{
                                  flexDirection: 'row',
                                  alignItems: 'center',
-                                 marginTop: -5,
-                                 marginBottom: -5,
+                                 marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>Title: </Text>
+                              <Text style={{ color: '#fafafb' }}>Title:</Text>
 
                               <TextInput
                                  placeholder="Type the title here..."
                                  value={title}
                                  onChangeText={(text) => setTitle(text)}
-                                 placeholderTextColor="#575757"
-                                 style={{ flexGrow: 1, color: '#fafafb' }}
+                                 placeholderTextColor="#555"
+                                 style={{
+                                    flexGrow: 1,
+                                    color: '#fafafb',
+                                    backgroundColor: '#343746',
+                                    height: 35,
+                                    paddingTop: 5,
+                                    paddingBottom: 5,
+                                    paddingLeft: 7,
+                                    marginLeft: 5,
+                                 }}
                               />
                            </View>
 
@@ -182,19 +190,28 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               style={{
                                  flexDirection: 'row',
                                  alignItems: 'center',
-                                 marginTop: -5,
-                                 marginBottom: -5,
+                                 marginTop: 7,
+                                 marginBottom: 7,
                               }}>
                               <Text style={{ color: '#fafafb' }}>
-                                 Description:{' '}
+                                 Description:
                               </Text>
 
                               <TextInput
-                                 placeholder="Type the title here..."
+                                 placeholder="Type the description here..."
                                  value={description}
                                  onChangeText={(text) => setDescription(text)}
-                                 placeholderTextColor="#575757"
-                                 style={{ flexGrow: 1, color: '#fafafb' }}
+                                 placeholderTextColor="#555"
+                                 style={{
+                                    flexGrow: 1,
+                                    color: '#fafafb',
+                                    backgroundColor: '#343746',
+                                    height: 35,
+                                    paddingTop: 5,
+                                    paddingBottom: 5,
+                                    paddingLeft: 7,
+                                    marginLeft: 5,
+                                 }}
                               />
                            </View>
 
@@ -204,15 +221,24 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               style={{
                                  flexDirection: 'row',
                                  alignItems: 'center',
-                                 marginTop: -5,
-                                 marginBottom: -5,
+                                 marginTop: 7,
+                                 marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>Value: </Text>
+                              <Text style={{ color: '#fafafb' }}>Value:</Text>
 
                               <InputMoney
                                  value={money}
                                  onChangeText={(text: string) => setMoney(text)}
-                                 style={{ flexGrow: 1, color: '#fafafb' }}
+                                 style={{
+                                    flexGrow: 1,
+                                    color: '#fafafb',
+                                    backgroundColor: '#343746',
+                                    height: 35,
+                                    paddingTop: 5,
+                                    paddingBottom: 5,
+                                    paddingLeft: 7,
+                                    marginLeft: 5,
+                                 }}
                               />
                            </View>
 
@@ -222,15 +248,24 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               style={{
                                  flexDirection: 'row',
                                  alignItems: 'center',
-                                 marginTop: -5,
-                                 marginBottom: -5,
+                                 marginTop: 7,
+                                 marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>Tax: </Text>
+                              <Text style={{ color: '#fafafb' }}>Tax:</Text>
 
                               <InputMoney
                                  value={tax}
                                  onChangeText={(text: string) => setTax(text)}
-                                 style={{ flexGrow: 1, color: '#fafafb' }}
+                                 style={{
+                                    flexGrow: 1,
+                                    color: '#fafafb',
+                                    backgroundColor: '#343746',
+                                    height: 35,
+                                    paddingTop: 5,
+                                    paddingBottom: 5,
+                                    paddingLeft: 7,
+                                    marginLeft: 5,
+                                 }}
                               />
                            </View>
 
@@ -240,19 +275,28 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               style={{
                                  flexDirection: 'row',
                                  alignItems: 'center',
-                                 marginTop: -5,
-                                 marginBottom: -5,
+                                 marginTop: 7,
+                                 marginBottom: 7,
                               }}>
                               <Text style={{ color: '#fafafb' }}>
-                                 Installments:{' '}
+                                 Installments:
                               </Text>
 
                               <TextInput
                                  placeholder="Installments to be paid..."
                                  value={installments}
                                  onChangeText={(text) => setInstallments(text)}
-                                 style={{ flexGrow: 1, color: '#fafafb' }}
-                                 placeholderTextColor="#575757"
+                                 style={{
+                                    flexGrow: 1,
+                                    color: '#fafafb',
+                                    backgroundColor: '#343746',
+                                    height: 35,
+                                    paddingTop: 5,
+                                    paddingBottom: 5,
+                                    paddingLeft: 7,
+                                    marginLeft: 5,
+                                 }}
+                                 placeholderTextColor="#555"
                                  keyboardType="numeric"
                               />
                            </View>
@@ -263,11 +307,10 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               style={{
                                  flexDirection: 'row',
                                  alignItems: 'center',
-                                 marginTop: -5,
-                                 marginBottom: -5,
+                                 marginTop: 7,
                               }}>
                               <Text style={{ color: '#fafafb' }}>
-                                 Missing installments:{' '}
+                                 Missing installments:
                               </Text>
 
                               <TextInput
@@ -276,8 +319,17 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  onChangeText={(text) =>
                                     setMissingInstallments(text)
                                  }
-                                 style={{ flexGrow: 1, color: '#fafafb' }}
-                                 placeholderTextColor="#575757"
+                                 style={{
+                                    flexGrow: 1,
+                                    color: '#fafafb',
+                                    backgroundColor: '#343746',
+                                    height: 35,
+                                    paddingTop: 5,
+                                    paddingBottom: 5,
+                                    paddingLeft: 7,
+                                    marginLeft: 5,
+                                 }}
+                                 placeholderTextColor="#555"
                                  keyboardType="numeric"
                               />
                            </View>
@@ -285,6 +337,8 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                      </Card>
 
                      <Button
+                        icon="delete"
+                        upperCase={false}
                         accent
                         raised
                         text="Remove"
@@ -299,6 +353,8 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                      />
 
                      <Button
+                        icon="save"
+                        upperCase={false}
                         primary
                         raised
                         text="Save"
@@ -311,6 +367,21 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               marginRight: 15,
                            },
                            text: { color: '#333' },
+                        }}
+                     />
+
+                     <Button
+                        icon="chevron-left"
+                        upperCase={false}
+                        text="Cancel"
+                        onPress={() => navigation.navigate('LendMoney')}
+                        style={{
+                           container: {
+                              marginTop: 10,
+                              marginLeft: 15,
+                              marginRight: 15,
+                           },
+                           text: { color: '#fafafb' },
                         }}
                      />
                   </>

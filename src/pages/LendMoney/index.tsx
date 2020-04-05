@@ -18,6 +18,7 @@ import ParseMoney from '../../helpers/ParseMoney';
 import InputMoney from '../../components/InputMoney';
 import List from '../../components/List';
 import Divider from '../../components/Divider';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function LendMoney({ navigation }: StackHeaderProps) {
    const [loading, setLoading] = useState(true);
@@ -222,6 +223,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                            style={{
                               flexDirection: 'row',
                               alignItems: 'center',
+                              marginTop: 5,
                            }}>
                            <Text style={{ fontSize: 19, color: '#fafafb' }}>
                               Your current profit:
@@ -236,6 +238,9 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  fontSize: 19,
                                  flexGrow: 1,
                                  color: '#fafafb',
+                                 paddingTop: 5,
+                                 paddingBottom: 5,
+                                 marginLeft: 5,
                               }}
                            />
                         </View>
@@ -244,17 +249,30 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                            style={{
                               flexDirection: 'row',
                               alignItems: 'center',
+                              marginTop: 5,
                               marginBottom: 10,
                            }}>
-                           <Text style={{ color: '#fafafb' }}>Amount: </Text>
+                           <Text style={{ color: '#fafafb' }}>Amount:</Text>
 
                            <InputMoney
                               value={addProfit}
                               onChangeText={(text) => setAddProfit(text)}
-                              style={{ flexGrow: 1, color: '#fafafb' }}
+                              style={{
+                                 flexGrow: 1,
+                                 color: '#fafafb',
+                                 backgroundColor: '#343746',
+                                 height: 35,
+                                 paddingTop: 5,
+                                 paddingBottom: 5,
+                                 paddingLeft: 7,
+                                 marginLeft: 5,
+                                 marginRight: 5,
+                              }}
                            />
 
                            <Button
+                              icon="attach-money"
+                              upperCase={false}
                               raised
                               primary
                               text="Add profit"
@@ -272,19 +290,28 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  style={{
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    marginTop: -5,
-                                    marginBottom: -5,
+                                    marginTop: 5,
+                                    marginBottom: 7,
                                  }}>
                                  <Text style={{ color: '#fafafb' }}>
-                                    Title:{' '}
+                                    Title:
                                  </Text>
 
                                  <TextInput
                                     placeholder="Type the title here..."
                                     value={title}
                                     onChangeText={(text) => setTitle(text)}
-                                    placeholderTextColor="#575757"
-                                    style={{ flexGrow: 1, color: '#fafafb' }}
+                                    placeholderTextColor="#555"
+                                    style={{
+                                       flexGrow: 1,
+                                       color: '#fafafb',
+                                       backgroundColor: '#343746',
+                                       height: 35,
+                                       paddingTop: 5,
+                                       paddingBottom: 5,
+                                       paddingLeft: 7,
+                                       marginLeft: 5,
+                                    }}
                                  />
                               </View>
 
@@ -294,21 +321,30 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  style={{
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    marginTop: -5,
-                                    marginBottom: -5,
+                                    marginTop: 7,
+                                    marginBottom: 7,
                                  }}>
                                  <Text style={{ color: '#fafafb' }}>
-                                    Description:{' '}
+                                    Description:
                                  </Text>
 
                                  <TextInput
-                                    placeholder="Type the title here..."
+                                    placeholder="Type the description here..."
                                     value={description}
                                     onChangeText={(text) =>
                                        setDescription(text)
                                     }
-                                    placeholderTextColor="#575757"
-                                    style={{ flexGrow: 1, color: '#fafafb' }}
+                                    placeholderTextColor="#555"
+                                    style={{
+                                       flexGrow: 1,
+                                       color: '#fafafb',
+                                       backgroundColor: '#343746',
+                                       height: 35,
+                                       paddingTop: 5,
+                                       paddingBottom: 5,
+                                       paddingLeft: 7,
+                                       marginLeft: 5,
+                                    }}
                                  />
                               </View>
 
@@ -318,17 +354,26 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  style={{
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    marginTop: -5,
-                                    marginBottom: -5,
+                                    marginTop: 7,
+                                    marginBottom: 7,
                                  }}>
                                  <Text style={{ color: '#fafafb' }}>
-                                    Value:{' '}
+                                    Value:
                                  </Text>
 
                                  <InputMoney
                                     value={money}
                                     onChangeText={(text) => setMoney(text)}
-                                    style={{ flexGrow: 1, color: '#fafafb' }}
+                                    style={{
+                                       flexGrow: 1,
+                                       color: '#fafafb',
+                                       backgroundColor: '#343746',
+                                       height: 35,
+                                       paddingTop: 5,
+                                       paddingBottom: 5,
+                                       paddingLeft: 7,
+                                       marginLeft: 5,
+                                    }}
                                  />
                               </View>
 
@@ -338,15 +383,24 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  style={{
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    marginTop: -5,
-                                    marginBottom: -5,
+                                    marginTop: 7,
+                                    marginBottom: 7,
                                  }}>
-                                 <Text style={{ color: '#fafafb' }}>Tax: </Text>
+                                 <Text style={{ color: '#fafafb' }}>Tax:</Text>
 
                                  <InputMoney
                                     value={tax}
                                     onChangeText={(text) => setTax(text)}
-                                    style={{ flexGrow: 1, color: '#fafafb' }}
+                                    style={{
+                                       flexGrow: 1,
+                                       color: '#fafafb',
+                                       backgroundColor: '#343746',
+                                       height: 35,
+                                       paddingTop: 5,
+                                       paddingBottom: 5,
+                                       paddingLeft: 7,
+                                       marginLeft: 5,
+                                    }}
                                  />
                               </View>
 
@@ -356,11 +410,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  style={{
                                     flexDirection: 'row',
                                     alignItems: 'center',
-                                    marginTop: -5,
-                                    marginBottom: -5,
+                                    marginTop: 7,
+                                    marginBottom: 7,
                                  }}>
                                  <Text style={{ color: '#fafafb' }}>
-                                    Installments:{' '}
+                                    Installments:
                                  </Text>
 
                                  <TextInput
@@ -369,14 +423,25 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     onChangeText={(text) =>
                                        setInstallments(text)
                                     }
-                                    placeholderTextColor="#575757"
-                                    style={{ flexGrow: 1, color: '#fafafb' }}
+                                    placeholderTextColor="#555"
+                                    style={{
+                                       flexGrow: 1,
+                                       color: '#fafafb',
+                                       backgroundColor: '#343746',
+                                       height: 35,
+                                       paddingTop: 5,
+                                       paddingBottom: 5,
+                                       paddingLeft: 7,
+                                       marginLeft: 5,
+                                    }}
                                     keyboardType="numeric"
                                  />
                               </View>
 
                               <View>
                                  <Button
+                                    icon="clear"
+                                    upperCase={false}
                                     accent
                                     raised
                                     text="Cancel"
@@ -387,6 +452,8 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                  />
 
                                  <Button
+                                    icon="save"
+                                    upperCase={false}
                                     primary
                                     raised
                                     text="Add"
@@ -404,6 +471,8 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                            </>
                         ) : (
                            <Button
+                              icon="add"
+                              upperCase={false}
                               primary
                               text="Add new item"
                               raised
@@ -411,6 +480,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                               style={{
                                  container: {
                                     backgroundColor: '#00ff5f',
+                                    marginTop: 5,
                                     marginBottom: 15,
                                  },
                                  text: { color: '#333' },

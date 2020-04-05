@@ -15,7 +15,7 @@ export default function InputMoney({ value, onChangeText, style }: Props) {
          }}
          value={value}
          onChangeText={onChangeText}
-         placeholderTextColor="#444"
+         placeholderTextColor="#555"
          style={style}
       />
    );
