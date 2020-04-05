@@ -204,8 +204,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                            paddingTop: 15,
                            paddingBottom: 15,
                            flex: 1,
+                           backgroundColor: '#282a36',
                         }}>
-                        <Text>Loading your app...</Text>
+                        <Text style={{ color: '#fafafb' }}>
+                           Loading your app...
+                        </Text>
                      </View>
                   ) : (
                      <View

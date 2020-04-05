@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { YellowBox, unstable_enableLogBox } from 'react-native';
+import { YellowBox } from 'react-native';
 
 import Main from './pages/Main';
 import LendMoney from './pages/LendMoney';
@@ -61,5 +61,3 @@ YellowBox.ignoreWarnings([
 ]);
 
 console.disableYellowBox = true;
-
-unstable_enableLogBox();
