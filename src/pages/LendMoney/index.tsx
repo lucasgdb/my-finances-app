@@ -447,7 +447,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     text="Cancel"
                                     onPress={() => setAdding(false)}
                                     style={{
-                                       container: { marginTop: 5 },
+                                       container: { marginTop: 7 },
                                     }}
                                  />
 
