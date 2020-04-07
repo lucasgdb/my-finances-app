@@ -293,7 +293,13 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     marginTop: 5,
                                     marginBottom: 7,
                                  }}>
-                                 <Text style={{ color: '#fafafb' }}>
+                                 <Text
+                                    style={{
+                                       color: '#fafafb',
+                                       textAlign: 'right',
+                                       paddingRight: 7,
+                                       width: 90,
+                                    }}>
                                     Title:
                                  </Text>
 
@@ -324,7 +330,13 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     marginTop: 7,
                                     marginBottom: 7,
                                  }}>
-                                 <Text style={{ color: '#fafafb' }}>
+                                 <Text
+                                    style={{
+                                       color: '#fafafb',
+                                       textAlign: 'right',
+                                       paddingRight: 7,
+                                       width: 90,
+                                    }}>
                                     Description:
                                  </Text>
 
@@ -357,7 +369,13 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     marginTop: 7,
                                     marginBottom: 7,
                                  }}>
-                                 <Text style={{ color: '#fafafb' }}>
+                                 <Text
+                                    style={{
+                                       color: '#fafafb',
+                                       textAlign: 'right',
+                                       paddingRight: 7,
+                                       width: 90,
+                                    }}>
                                     Value:
                                  </Text>
 
@@ -386,7 +404,15 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     marginTop: 7,
                                     marginBottom: 7,
                                  }}>
-                                 <Text style={{ color: '#fafafb' }}>Tax:</Text>
+                                 <Text
+                                    style={{
+                                       color: '#fafafb',
+                                       textAlign: 'right',
+                                       paddingRight: 7,
+                                       width: 90,
+                                    }}>
+                                    Tax:
+                                 </Text>
 
                                  <InputMoney
                                     value={tax}
@@ -413,7 +439,13 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                                     marginTop: 7,
                                     marginBottom: 7,
                                  }}>
-                                 <Text style={{ color: '#fafafb' }}>
+                                 <Text
+                                    style={{
+                                       color: '#fafafb',
+                                       textAlign: 'right',
+                                       paddingRight: 7,
+                                       width: 90,
+                                    }}>
                                     Installments:
                                  </Text>
 

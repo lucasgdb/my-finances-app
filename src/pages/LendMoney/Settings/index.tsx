@@ -164,7 +164,15 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  alignItems: 'center',
                                  marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>Title:</Text>
+                              <Text
+                                 style={{
+                                    color: '#fafafb',
+                                    textAlign: 'right',
+                                    paddingRight: 7,
+                                    width: 90,
+                                 }}>
+                                 Title:
+                              </Text>
 
                               <TextInput
                                  placeholder="Type the title here..."
@@ -193,7 +201,13 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: 7,
                                  marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>
+                              <Text
+                                 style={{
+                                    color: '#fafafb',
+                                    textAlign: 'right',
+                                    paddingRight: 7,
+                                    width: 90,
+                                 }}>
                                  Description:
                               </Text>
 
@@ -224,7 +238,15 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: 7,
                                  marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>Value:</Text>
+                              <Text
+                                 style={{
+                                    color: '#fafafb',
+                                    textAlign: 'right',
+                                    paddingRight: 7,
+                                    width: 90,
+                                 }}>
+                                 Value:
+                              </Text>
 
                               <InputMoney
                                  value={money}
@@ -251,7 +273,15 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: 7,
                                  marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>Tax:</Text>
+                              <Text
+                                 style={{
+                                    color: '#fafafb',
+                                    textAlign: 'right',
+                                    paddingRight: 7,
+                                    width: 90,
+                                 }}>
+                                 Tax:
+                              </Text>
 
                               <InputMoney
                                  value={tax}
@@ -278,7 +308,13 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  marginTop: 7,
                                  marginBottom: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>
+                              <Text
+                                 style={{
+                                    color: '#fafafb',
+                                    textAlign: 'right',
+                                    paddingRight: 7,
+                                    width: 90,
+                                 }}>
                                  Installments:
                               </Text>
 
@@ -309,7 +345,13 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                                  alignItems: 'center',
                                  marginTop: 7,
                               }}>
-                              <Text style={{ color: '#fafafb' }}>
+                              <Text
+                                 style={{
+                                    color: '#fafafb',
+                                    textAlign: 'center',
+                                    paddingRight: 7,
+                                    width: 90,
+                                 }}>
                                  Missing installments:
                               </Text>
 
@@ -380,6 +422,7 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
                               marginTop: 10,
                               marginLeft: 15,
                               marginRight: 15,
+                              backgroundColor: '#282a36',
                            },
                            text: { color: '#fafafb' },
                         }}

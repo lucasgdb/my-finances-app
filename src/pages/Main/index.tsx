@@ -8,7 +8,7 @@ import { Toolbar } from 'react-native-material-ui';
 export default function Main({ navigation }) {
    return (
       <>
-         <StatusBar backgroundColor="#00ff5f" barStyle="dark-content" />
+         <StatusBar backgroundColor="#191a21" barStyle="light-content" />
          <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
