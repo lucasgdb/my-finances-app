@@ -59,8 +59,8 @@
    },
    "exclude": [
       "node_modules",
-      "babel.config.ts",
-      "metro.config.ts",
+      "babel.config.js",
+      "metro.config.js",
       "jest.config.js"
    ]
 }
