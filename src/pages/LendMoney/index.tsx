@@ -18,7 +18,6 @@ import ParseMoney from '../../helpers/ParseMoney';
 import InputMoney from '../../components/InputMoney';
 import List from '../../components/List';
 import Divider from '../../components/Divider';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function LendMoney({ navigation }: StackHeaderProps) {
    const [loading, setLoading] = useState(true);
@@ -252,7 +251,9 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                               marginTop: 5,
                               marginBottom: 10,
                            }}>
-                           <Text style={{ color: '#fafafb' }}>Amount:</Text>
+                           <Text style={{ color: '#fafafb', paddingRight: 7 }}>
+                              Amount:
+                           </Text>
 
                            <InputMoney
                               value={addProfit}
