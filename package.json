@@ -1,7 +1,7 @@
 {
    "name": "my-finances",
    "description": "An app to help you controling your money.",
-   "version": "1.0.3",
+   "version": "1.1.0",
    "private": true,
    "rnpm": {
       "assets": [
