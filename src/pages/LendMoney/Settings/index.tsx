@@ -14,6 +14,7 @@ import { Button, Card } from 'react-native-material-ui';
 
 import { Item } from '../../../shared/Interfaces';
 import ParseMoney from '../../../helpers/ParseMoney';
+import SplitMoney from '../../../helpers/SplitMoney';
 import InputMoney from '../../../components/InputMoney';
 import Divider from '../../../components/Divider';
 
@@ -58,21 +59,29 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
 
    async function handleSaveItem() {
       try {
+         const numberInstallments = Number(installments);
+         const numberMissingInstallments = Number(missingInstallments);
+
          if (
             title !== '' &&
             description !== '' &&
             money !== '' &&
             ParseMoney(money) > 0 &&
-            Number(installments) > 0 &&
-            Number(missingInstallments) > 0
+            numberInstallments > 0 &&
+            numberMissingInstallments > 0 &&
+            numberInstallments >= numberMissingInstallments
          ) {
             const newList: Item = {
                title,
                description,
                money,
                tax,
-               installments: ParseMoney(installments),
-               missingInstallments: ParseMoney(missingInstallments),
+               installments: numberInstallments,
+               missingInstallments: numberMissingInstallments,
+               perMonth: SplitMoney(
+                  ParseMoney(money) + ParseMoney(tax),
+                  numberInstallments,
+               ),
             };
 
             const list = await AsyncStorage.getItem('list');

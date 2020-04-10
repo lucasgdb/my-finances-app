@@ -3,8 +3,9 @@ import { ListItem, Card } from 'react-native-material-ui';
 import { MaskService } from 'react-native-masked-text';
 
 import { Props } from './Interfaces';
-import ParseMoney from '../../helpers/ParseMoney';
 import { MONEY_CONFIG } from '../../constants';
+import SumMoney from '../../helpers/SumMoney';
+import ParseMoney from '../../helpers/ParseMoney';
 
 export default function List({
    item,
@@ -24,24 +25,34 @@ export default function List({
          }}>
          <ListItem
             centerElement={{
-               primaryText: item.title,
+               primaryText: `${item.title} (${
+                  item.installments - item.missingInstallments
+               }/${item.installments})`,
                secondaryText: item.description,
-               tertiaryText: `${MaskService.toMask(
+               tertiaryText: `To pay: ${MaskService.toMask(
                   'money',
                   String(
-                     (ParseMoney(item.money) + ParseMoney(item.tax)) /
-                        item.installments,
+                     item.perMonth[
+                        item.installments - item.missingInstallments
+                     ],
                   ),
                   MONEY_CONFIG,
-               )} * ${item.missingInstallments} = ${MaskService.toMask(
+               )} (${MaskService.toMask(
                   'money',
                   String(
-                     ((ParseMoney(item.money) + ParseMoney(item.tax)) /
-                        item.installments) *
-                        item.missingInstallments,
+                     SumMoney(
+                        item.perMonth.slice(
+                           0,
+                           item.installments - item.missingInstallments,
+                        ),
+                     ),
                   ),
                   MONEY_CONFIG,
-               )}`,
+               )} / ${MaskService.toMask(
+                  'money',
+                  String(ParseMoney(item.money) + ParseMoney(item.tax)),
+                  MONEY_CONFIG,
+               )})`,
             }}
             onPress={onPress}
             rightElement={rightElement}

@@ -15,6 +15,8 @@ import { Button, Card } from 'react-native-material-ui';
 
 import { Item } from '../../shared/Interfaces';
 import ParseMoney from '../../helpers/ParseMoney';
+import SplitMoney from '../../helpers/SplitMoney';
+import SumMoney from '../../helpers/SumMoney';
 import InputMoney from '../../components/InputMoney';
 import List from '../../components/List';
 import Divider from '../../components/Divider';
@@ -33,6 +35,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
 
    useEffect(() => {
       (async function () {
+         // AsyncStorage.clear();
          try {
             const currentProfit = await AsyncStorage.getItem('profit');
             const currentList = await AsyncStorage.getItem('list');
@@ -98,6 +101,10 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                   tax,
                   installments: Number(installments),
                   missingInstallments: Number(installments),
+                  perMonth: SplitMoney(
+                     ParseMoney(money) + ParseMoney(tax),
+                     Number(installments),
+                  ),
                },
             ];
 
@@ -121,17 +128,27 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
       try {
          const newList = [...list];
 
-         const paidInstallments =
-            newList[index].installments -
-            (newList[index].missingInstallments - 1);
-
          const moneyToPay = ParseMoney(newList[index].money);
-         const taxToPay = ParseMoney(newList[index].tax);
-         const total = moneyToPay + taxToPay;
 
-         const moneyPerInstallment = total / newList[index].installments;
+         console.log(moneyToPay);
 
-         const paidMoney = paidInstallments * moneyPerInstallment;
+         const moneyPerInstallment =
+            newList[index].perMonth[
+               newList[index].installments - newList[index].missingInstallments
+            ];
+
+         console.log(moneyPerInstallment);
+
+         const paidMoneyPerMonth = newList[index].perMonth.slice(
+            0,
+            newList[index].installments -
+               newList[index].missingInstallments +
+               1,
+         );
+
+         const paidMoney = SumMoney(paidMoneyPerMonth);
+
+         console.log(paidMoney);
 
          if (paidMoney > moneyToPay) {
             const missingTax = paidMoney - moneyToPay;
@@ -549,7 +566,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                               style={{
                                  container: { backgroundColor: '#282a36' },
                                  primaryText: { color: '#fafafb' },
-                                 secondaryText: { color: '#666' },
+                                 secondaryText: { color: '#777' },
                                  tertiaryText: { color: '#777' },
                                  rightElement: { color: '#fafafb' },
                               }}

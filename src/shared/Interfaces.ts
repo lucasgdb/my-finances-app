@@ -5,4 +5,5 @@ export interface Item {
    tax: string;
    installments: number;
    missingInstallments: number;
+   perMonth: number[];
 }

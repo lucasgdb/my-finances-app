@@ -121,7 +121,7 @@ export default function Trash({ route }) {
                            style={{
                               container: { backgroundColor: '#282a36' },
                               primaryText: { color: '#fafafb' },
-                              secondaryText: { color: '#666' },
+                              secondaryText: { color: '#777' },
                               tertiaryText: { color: '#777' },
                               rightElement: { color: '#fe0000' },
                            }}
