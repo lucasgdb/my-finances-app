@@ -85,13 +85,19 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
 
    async function handleAddItem() {
       try {
-         if (
-            title !== '' &&
-            description !== '' &&
-            money !== '' &&
-            ParseMoney(money) > 0 &&
-            Number(installments) > 0
-         ) {
+         const numberInstallments = Number(installments);
+
+         if (title.trim() === '') {
+            Alert.alert('Error', 'Title cannot be empty.', [{ text: 'OK' }]);
+         } else if (description.trim() === '') {
+            Alert.alert('Error', 'Description cannot be empty.', [
+               { text: 'OK' },
+            ]);
+         } else if (numberInstallments <= 0) {
+            Alert.alert('Error', 'Installments cannot be less than 1.', [
+               { text: 'OK' },
+            ]);
+         } else {
             const newList = [
                ...list,
                {
@@ -99,11 +105,11 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                   description,
                   money,
                   tax,
-                  installments: Number(installments),
-                  missingInstallments: Number(installments),
+                  installments: numberInstallments,
+                  missingInstallments: numberInstallments,
                   perMonth: SplitMoney(
                      ParseMoney(money) + ParseMoney(tax),
-                     Number(installments),
+                     numberInstallments,
                   ),
                },
             ];
@@ -130,14 +136,10 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
 
          const moneyToPay = ParseMoney(newList[index].money);
 
-         console.log(moneyToPay);
-
          const moneyPerInstallment =
             newList[index].perMonth[
                newList[index].installments - newList[index].missingInstallments
             ];
-
-         console.log(moneyPerInstallment);
 
          const paidMoneyPerMonth = newList[index].perMonth.slice(
             0,
@@ -147,8 +149,6 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
          );
 
          const paidMoney = SumMoney(paidMoneyPerMonth);
-
-         console.log(paidMoney);
 
          if (paidMoney > moneyToPay) {
             const missingTax = paidMoney - moneyToPay;
@@ -212,7 +212,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
                style={{ backgroundColor: '#191a21' }}>
-               <Card>
+               <Card style={{ container: { borderRadius: 0 } }}>
                   {loading ? (
                      <View
                         style={{

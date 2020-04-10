@@ -62,15 +62,29 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
          const numberInstallments = Number(installments);
          const numberMissingInstallments = Number(missingInstallments);
 
-         if (
-            title !== '' &&
-            description !== '' &&
-            money !== '' &&
-            ParseMoney(money) > 0 &&
-            numberInstallments > 0 &&
-            numberMissingInstallments > 0 &&
-            numberInstallments >= numberMissingInstallments
-         ) {
+         if (title.trim() === '') {
+            Alert.alert('Error', 'Title cannot be empty.', [{ text: 'OK' }]);
+         } else if (description.trim() === '') {
+            Alert.alert('Error', 'Description cannot be empty.', [
+               { text: 'OK' },
+            ]);
+         } else if (numberInstallments <= 0) {
+            Alert.alert('Error', 'Installments cannot be less than 1.', [
+               { text: 'OK' },
+            ]);
+         } else if (numberMissingInstallments <= 0) {
+            Alert.alert(
+               'Error',
+               'Missing installments cannot be less than 1.',
+               [{ text: 'OK' }],
+            );
+         } else if (numberInstallments < numberMissingInstallments) {
+            Alert.alert(
+               'Error',
+               'Missing installments cannot be greater than installments.',
+               [{ text: 'OK' }],
+            );
+         } else {
             const newList: Item = {
                title,
                description,

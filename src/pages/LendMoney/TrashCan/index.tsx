@@ -73,9 +73,9 @@ export default function Trash({ route }) {
 
             const deletedItems = [...list];
             deletedItems[index].missingInstallments =
-               deletedItems[index].missingInstallments > 1
+               deletedItems[index].missingInstallments >= 1
                   ? deletedItems[index].missingInstallments
-                  : 1;
+                  : deletedItems[index].installments;
 
             parseList.push(deletedItems[index]);
 

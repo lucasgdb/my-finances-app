@@ -5,7 +5,7 @@ import { Props } from './Interfaces';
 import Divider from '../../../components/Divider';
 import { Icon } from 'react-native-material-ui';
 
-export default function SquarePage({
+export default function PageButton({
    title,
    description,
    onPress,

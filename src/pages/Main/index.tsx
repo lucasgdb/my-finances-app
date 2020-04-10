@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StatusBar, SafeAreaView, ScrollView } from 'react-native';
 
-import SquarePage from './SquarePage';
+import PageButton from './PageButton';
 import { Toolbar } from 'react-native-material-ui';
 
 // @ts-ignore
@@ -10,22 +10,21 @@ export default function Main({ navigation }) {
       <>
          <StatusBar backgroundColor="#191a21" barStyle="light-content" />
          <SafeAreaView style={{ flex: 1 }}>
+            <Toolbar
+               leftElement="menu"
+               centerElement="My Finances"
+               style={{
+                  container: { backgroundColor: '#00ff5f' },
+                  titleText: { color: '#333' },
+                  leftElement: { color: '#333' },
+               }}
+            />
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
                style={{
                   backgroundColor: '#00ff5f',
                   flex: 1,
                }}>
-               <Toolbar
-                  leftElement="menu"
-                  centerElement="My Finances"
-                  style={{
-                     container: { backgroundColor: '#00ff5f' },
-                     titleText: { color: '#333' },
-                     leftElement: { color: '#333' },
-                  }}
-               />
-
                <View
                   style={{
                      flex: 1,
@@ -33,14 +32,14 @@ export default function Main({ navigation }) {
                      flexWrap: 'wrap',
                      justifyContent: 'center',
                   }}>
-                  <SquarePage
+                  <PageButton
                      title="Lend money"
                      description="Control your finances by lending money to people and getting a percentage back."
                      onPress={() => navigation.navigate('LendMoney')}
                      icon="attach-money"
                   />
 
-                  <SquarePage
+                  <PageButton
                      title="Coming soon"
                      description="More features are coming soon."
                   />

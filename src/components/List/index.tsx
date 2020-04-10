@@ -25,11 +25,7 @@ export default function List({
          }}>
          <ListItem
             centerElement={{
-               primaryText: `${item.title} (${
-                  item.installments - item.missingInstallments
-               }/${item.installments})`,
-               secondaryText: item.description,
-               tertiaryText: `To pay: ${MaskService.toMask(
+               primaryText: `${item.title} (next: ${MaskService.toMask(
                   'money',
                   String(
                      item.perMonth[
@@ -37,7 +33,11 @@ export default function List({
                      ],
                   ),
                   MONEY_CONFIG,
-               )} (${MaskService.toMask(
+               )})`,
+               secondaryText: `${item.description} (${
+                  item.installments - item.missingInstallments
+               }/${item.installments})`,
+               tertiaryText: `Paid: ${MaskService.toMask(
                   'money',
                   String(
                      SumMoney(
@@ -48,11 +48,11 @@ export default function List({
                      ),
                   ),
                   MONEY_CONFIG,
-               )} / ${MaskService.toMask(
+               )} of ${MaskService.toMask(
                   'money',
                   String(ParseMoney(item.money) + ParseMoney(item.tax)),
                   MONEY_CONFIG,
-               )})`,
+               )}`,
             }}
             onPress={onPress}
             rightElement={rightElement}
