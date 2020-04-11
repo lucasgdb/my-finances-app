@@ -35,7 +35,6 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
 
    useEffect(() => {
       (async function () {
-         // AsyncStorage.clear();
          try {
             const currentProfit = await AsyncStorage.getItem('profit');
             const currentList = await AsyncStorage.getItem('list');
@@ -86,11 +85,21 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
    async function handleAddItem() {
       try {
          const numberInstallments = Number(installments);
+         const parseMoney = ParseMoney(money);
+         const parseTax = ParseMoney(tax);
 
          if (title.trim() === '') {
             Alert.alert('Error', 'Title cannot be empty.', [{ text: 'OK' }]);
          } else if (description.trim() === '') {
             Alert.alert('Error', 'Description cannot be empty.', [
+               { text: 'OK' },
+            ]);
+         } else if (parseMoney <= 0) {
+            Alert.alert('Error', 'Money cannot be less than R$ 0,01', [
+               { text: 'OK' },
+            ]);
+         } else if (parseTax <= 0) {
+            Alert.alert('Error', 'Tax cannot be less than R$ 0,01', [
                { text: 'OK' },
             ]);
          } else if (numberInstallments <= 0) {
@@ -108,7 +117,7 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
                   installments: numberInstallments,
                   missingInstallments: numberInstallments,
                   perMonth: SplitMoney(
-                     ParseMoney(money) + ParseMoney(tax),
+                     parseMoney + parseTax,
                      numberInstallments,
                   ),
                },

@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { Toolbar } from 'react-native-material-ui';
 
 import PageButton from './PageButton';
-import { Toolbar } from 'react-native-material-ui';
 
 // @ts-ignore
 export default function Main({ navigation }) {
@@ -19,6 +19,7 @@ export default function Main({ navigation }) {
                   leftElement: { color: '#333' },
                }}
             />
+
             <ScrollView
                contentInsetAdjustmentBehavior="automatic"
                style={{

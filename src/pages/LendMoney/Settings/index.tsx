@@ -68,6 +68,14 @@ export default function Settings({ route, navigation }: StackHeaderProps) {
             Alert.alert('Error', 'Description cannot be empty.', [
                { text: 'OK' },
             ]);
+         } else if (ParseMoney(money) <= 0) {
+            Alert.alert('Error', 'Money cannot be less than R$ 0,01', [
+               { text: 'OK' },
+            ]);
+         } else if (ParseMoney(tax) <= 0) {
+            Alert.alert('Error', 'Tax cannot be less than R$ 0,01', [
+               { text: 'OK' },
+            ]);
          } else if (numberInstallments <= 0) {
             Alert.alert('Error', 'Installments cannot be less than 1.', [
                { text: 'OK' },
