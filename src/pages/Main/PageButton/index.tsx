@@ -50,7 +50,7 @@ export default function PageButton({
                <Text
                   style={{
                      fontSize: 14,
-                     color: '#333',
+                     color: '#444',
                      fontFamily: 'serif',
                   }}>
                   {description}
