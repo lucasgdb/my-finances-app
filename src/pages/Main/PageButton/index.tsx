@@ -18,7 +18,7 @@ export default function PageButton({
             marginRight: '1%',
             flexBasis: '90%',
             marginTop: 10,
-            borderWidth: 0.5,
+            borderWidth: 0.7,
             borderColor: '#333',
          }}>
          <TouchableOpacity onPress={onPress ? onPress : () => {}}>
