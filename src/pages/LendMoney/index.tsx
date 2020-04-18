@@ -98,10 +98,6 @@ export default function LendMoney({ navigation }: StackHeaderProps) {
             Alert.alert('Error', 'Money cannot be less than R$ 0,01', [
                { text: 'OK' },
             ]);
-         } else if (parseTax <= 0) {
-            Alert.alert('Error', 'Tax cannot be less than R$ 0,01', [
-               { text: 'OK' },
-            ]);
          } else if (numberInstallments <= 0) {
             Alert.alert('Error', 'Installments cannot be less than 1.', [
                { text: 'OK' },
